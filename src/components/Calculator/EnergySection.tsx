@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Lightbulb, Fuel } from "lucide-react";
 
 const HOURS_OPTIONS = [
@@ -27,6 +28,7 @@ interface EnergyValues {
   electricityDays: string;
   generatorType: string;
   generatorHours: string;
+  useExactElectricity?: boolean;
 }
 
 export const EnergySection = ({
@@ -34,12 +36,11 @@ export const EnergySection = ({
   onChange,
 }: {
   values: EnergyValues;
-  onChange: (field: string, value: string) => void;
+  onChange: (field: string, value: string | boolean) => void;
 }) => {
   const calculateEstimatedKwh = (hours: string, daysPerWeek: number) => {
     const averageHours = hours === "24" ? 24 : hours === "18-24" ? 21 : hours === "12-18" ? 15 : hours === "6-12" ? 9 : 3;
     const monthlyHours = (averageHours * daysPerWeek * 4.33);
-    // Assuming average household consumption of 1kW per hour
     return Math.round(monthlyHours);
   };
 
@@ -59,9 +60,12 @@ export const EnergySection = ({
             </div>
 
             <div className="space-y-6">
-              <div className="space-y-4">
+              <div className={`space-y-4 ${values.useExactElectricity ? 'opacity-50 pointer-events-none' : ''}`}>
                 <Label>How many hours of electricity do you typically have in a day?</Label>
-                <Select onValueChange={(value) => onChange("electricityHours", value)}>
+                <Select 
+                  onValueChange={(value) => onChange("electricityHours", value)}
+                  disabled={values.useExactElectricity}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select hours" />
                   </SelectTrigger>
@@ -75,13 +79,14 @@ export const EnergySection = ({
                 </Select>
               </div>
 
-              <div className="space-y-4">
+              <div className={`space-y-4 ${values.useExactElectricity ? 'opacity-50 pointer-events-none' : ''}`}>
                 <Label>How many days per week do you have electricity?</Label>
                 <Slider
                   defaultValue={[7]}
                   max={7}
                   min={1}
                   step={1}
+                  disabled={values.useExactElectricity}
                   onValueChange={(value) => onChange("electricityDays", value[0].toString())}
                 />
                 <div className="text-sm text-muted-foreground text-center">
@@ -89,20 +94,37 @@ export const EnergySection = ({
                 </div>
               </div>
 
-              <div className="space-y-2 pt-4 border-t">
+              <div className="flex items-center space-x-2 pt-4 border-t">
+                <Checkbox 
+                  id="exactUsage"
+                  checked={values.useExactElectricity}
+                  onCheckedChange={(checked) => {
+                    onChange("useExactElectricity", checked ? "true" : "false");
+                    if (!checked) {
+                      onChange("electricity", "");
+                    }
+                  }}
+                />
+                <Label htmlFor="exactUsage" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  I know my exact monthly electricity usage
+                </Label>
+              </div>
+
+              <div className={`space-y-2 ${!values.useExactElectricity ? 'opacity-50 pointer-events-none' : ''}`}>
                 <Label htmlFor="electricity" className="text-sm text-muted-foreground">
-                  If you know your monthly electricity usage (kWh), enter it below:
+                  Enter your monthly electricity usage (kWh):
                 </Label>
                 <Input
                   id="electricity"
                   type="number"
                   placeholder="0"
                   value={values.electricity}
+                  disabled={!values.useExactElectricity}
                   onChange={(e) => onChange("electricity", e.target.value)}
                 />
               </div>
 
-              {values.electricityHours && values.electricityDays && (
+              {!values.useExactElectricity && values.electricityHours && values.electricityDays && (
                 <div className="p-4 bg-muted rounded-lg">
                   <p className="text-sm">
                     Based on your usage pattern, your estimated monthly consumption is approximately{" "}
