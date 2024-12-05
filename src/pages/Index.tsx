@@ -74,6 +74,11 @@ const Index = () => {
           />
         </div>
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 text-center">
+          <img
+            src="/lovable-uploads/3194298e-33db-422c-9c4e-79f8c60b15f6.png"
+            alt="Logo"
+            className="w-24 h-24 mx-auto mb-8"
+          />
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
             Nigeria's Most Accurate Carbon Footprint Calculator
           </h1>
