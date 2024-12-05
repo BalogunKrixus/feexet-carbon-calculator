@@ -29,6 +29,16 @@ export const TransportSection = ({
   const [frequency, setFrequency] = useState("monthly");
 
   useEffect(() => {
+    const handleReset = () => {
+      setTransportMode("");
+      setFrequency("monthly");
+    };
+
+    window.addEventListener('reset', handleReset);
+    return () => window.removeEventListener('reset', handleReset);
+  }, []);
+
+  useEffect(() => {
     if (!transportMode) {
       onChange("carKm", "0");
       onChange("busKm", "0");
