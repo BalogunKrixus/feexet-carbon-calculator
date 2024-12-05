@@ -16,7 +16,9 @@ export const Results = ({
   const percentage = (totalEmissions / nigerianAverage) * 100;
 
   const getProgressColor = (index: number) => {
-    return COLORS[index % COLORS.length];
+    if (index === 0) return "bg-[#2F855A]";
+    if (index === 1) return "bg-[#4C51BF]";
+    return "bg-[#F6E05E]";
   };
 
   return (
@@ -81,7 +83,7 @@ export const Results = ({
               <Progress
                 value={(item.value / totalEmissions) * 100}
                 className="h-1.5"
-                indicatorClassName={`bg-[${getProgressColor(index)}]`}
+                indicatorClassName={getProgressColor(index)}
               />
             </div>
           ))}
