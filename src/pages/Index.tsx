@@ -189,6 +189,7 @@ const Index = () => {
               electricityDays: "7",
               generatorType: "",
               generatorHours: "4",
+              useExactElectricity: false,
             })}
           >
             Reset Calculator
