@@ -49,7 +49,7 @@ const Index = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/70 z-10" /> {/* Darker overlay */}
+          <div className="absolute inset-0 bg-black/80 z-10" /> {/* Even darker overlay */}
           <img
             src="/lovable-uploads/b035a820-5d42-40d3-8956-4d2870f7ccf9.png"
             alt="Busy Nigerian street with yellow buses and crowds"
