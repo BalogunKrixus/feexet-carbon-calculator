@@ -10,10 +10,13 @@ import {
 } from "@/components/ui/tooltip";
 
 const FREQUENCY_OPTIONS = [
-  { value: "daily", label: "Daily", multiplier: 30 },
-  { value: "weekly", label: "Weekly", multiplier: 4 },
-  { value: "monthly", label: "Monthly", multiplier: 1 },
-  { value: "rarely", label: "Rarely", multiplier: 0.5 },
+  { value: "daily", label: "Daily (7 days/week)", multiplier: 30 },
+  { value: "weekdays", label: "Weekdays only (Monday to Friday)", multiplier: 20 },
+  { value: "weekends", label: "Weekends only (Saturday and Sunday)", multiplier: 8 },
+  { value: "few_times", label: "Few times a week (e.g., 2–4 days/week)", multiplier: 12 },
+  { value: "once_week", label: "Once a week", multiplier: 4 },
+  { value: "monthly", label: "Once or twice a month", multiplier: 1.5 },
+  { value: "rarely", label: "Rarely (less than once a month)", multiplier: 0.5 },
 ];
 
 const TRANSPORT_MODES = [

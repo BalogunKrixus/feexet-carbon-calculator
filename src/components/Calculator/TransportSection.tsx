@@ -4,8 +4,11 @@ import { TransportOptions } from "./TransportOptions";
 
 const FREQUENCY_MULTIPLIERS = {
   daily: 30,
-  weekly: 4,
-  monthly: 1,
+  weekdays: 20,
+  weekends: 8,
+  few_times: 12,
+  once_week: 4,
+  monthly: 1.5,
   rarely: 0.5,
 };
 
