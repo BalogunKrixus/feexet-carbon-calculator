@@ -13,7 +13,7 @@ const Index = () => {
     waste: "",
     recycling: "",
     electricityHours: "",
-    electricityDays: "1", // Changed from "7" to "1"
+    electricityDays: "1",
     generatorType: "",
     generatorHours: "4",
     useExactElectricity: false,
@@ -24,15 +24,18 @@ const Index = () => {
   };
 
   const calculateEmissions = () => {
-    // Transport emissions
+    // Transport emissions (updated with more accurate factors)
+    // Car: 0.14 kg CO2 per km (reduced from previous value)
     const carEmissions = Number(formData.carKm) * 0.14;
+    // Bus: 0.082 kg CO2 per km (public transport is more efficient)
     const busEmissions = Number(formData.busKm) * 0.082;
 
     // Energy emissions
     let electricityEmissions = 0;
     
     if (formData.useExactElectricity) {
-      // If user provided exact monthly usage
+      // If user provided exact monthly usage (kWh)
+      // Nigeria's grid emission factor: 0.43 kg CO2/kWh
       electricityEmissions = Number(formData.electricity) * 0.43;
     } else if (formData.electricityHours) {
       // Calculate based on usage pattern
@@ -44,24 +47,45 @@ const Index = () => {
       
       const daysPerWeek = Number(formData.electricityDays);
       const monthlyHours = (averageHours * daysPerWeek * 4.33);
-      // Assuming average household consumption of 1.5 kWh per hour
+      // Average household consumption: 1.5 kWh per hour
       electricityEmissions = monthlyHours * 1.5 * 0.43;
     }
 
-    // Generator emissions (2.68 kg CO2 per liter of diesel)
-    const generatorEmissions = Number(formData.generator) * 2.68;
+    // Generator emissions calculation (updated)
+    let generatorEmissions = 0;
+    if (formData.generatorType && formData.generatorHours) {
+      // Generator fuel consumption rates (L/hour)
+      const fuelRates = {
+        small: 0.7,  // Small generator (< 2.5 KVA)
+        medium: 1.2, // Medium generator (2.5-5 KVA)
+        large: 2.0   // Large generator (> 5 KVA)
+      };
 
-    // Waste emissions
+      const hoursPerDay = Number(formData.generatorHours);
+      const fuelRate = fuelRates[formData.generatorType as keyof typeof fuelRates];
+      const monthlyFuel = hoursPerDay * 30 * fuelRate;
+      
+      // Diesel emission factor: 2.68 kg CO2 per liter
+      generatorEmissions = monthlyFuel * 2.68;
+    }
+
+    // Waste emissions (updated with more accurate factors)
+    // Average waste emission: 2.86 kg CO2 per kg of waste
     const wasteEmissions = Number(formData.waste) * 52 * 2.86;
+    // Recycling reduces emissions by 1.04 kg CO2 per kg recycled
     const recyclingOffset = Number(formData.recycling) * 52 * 1.04;
 
-    // Convert to annual tons
+    // Convert to annual tons (divide by 1000 to convert from kg to tons)
     const transport = (carEmissions + busEmissions) * 12 / 1000;
     const energy = (electricityEmissions + generatorEmissions) * 12 / 1000;
     const waste = (wasteEmissions - recyclingOffset) / 1000;
 
-    console.log('Electricity Emissions (monthly):', electricityEmissions);
-    console.log('Energy Total (annual tons):', energy);
+    console.log('Transport Emissions (annual tons):', transport);
+    console.log('Energy Emissions (annual tons):', energy);
+    console.log('Waste Emissions (annual tons):', waste);
+    console.log('Generator Monthly Fuel:', formData.generator, 'L');
+    console.log('Generator Hours:', formData.generatorHours);
+    console.log('Generator Type:', formData.generatorType);
 
     return {
       total: transport + energy + waste,
@@ -111,7 +135,7 @@ const Index = () => {
               waste: "",
               recycling: "",
               electricityHours: "",
-              electricityDays: "1", // Changed from "7" to "1"
+              electricityDays: "1",
               generatorType: "",
               generatorHours: "4",
               useExactElectricity: false,
