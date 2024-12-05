@@ -79,7 +79,7 @@ const Index = () => {
             <img
               src="/lovable-uploads/3194298e-33db-422c-9c4e-79f8c60b15f6.png"
               alt="Logo"
-              className="h-16 w-auto"
+              className="h-8 w-auto"
             />
           </div>
           {/* Hero Content */}
