@@ -19,35 +19,52 @@ const Index = () => {
     electricityDays: "7",
     generatorType: "",
     generatorHours: "4",
+    useExactElectricity: false,
   });
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const calculateEmissions = () => {
     // Transport emissions
-    // Car: 0.14 kg CO2 per km (average Nigerian car)
     const carEmissions = Number(formData.carKm) * 0.14;
-    // Bus: 0.082 kg CO2 per km per passenger (public transport)
     const busEmissions = Number(formData.busKm) * 0.082;
 
     // Energy emissions
-    // Grid electricity: 0.43 kg CO2 per kWh (Nigerian grid factor)
-    const electricityEmissions = Number(formData.electricity) * 0.43;
-    // Generator: 2.68 kg CO2 per liter of diesel
+    let electricityEmissions = 0;
+    
+    if (formData.useExactElectricity) {
+      // If user provided exact monthly usage
+      electricityEmissions = Number(formData.electricity) * 0.43;
+    } else if (formData.electricityHours) {
+      // Calculate based on usage pattern
+      const averageHours = formData.electricityHours === "24" ? 24 
+        : formData.electricityHours === "18-24" ? 21 
+        : formData.electricityHours === "12-18" ? 15 
+        : formData.electricityHours === "6-12" ? 9 
+        : 3;
+      
+      const daysPerWeek = Number(formData.electricityDays);
+      const monthlyHours = (averageHours * daysPerWeek * 4.33);
+      // Assuming average household consumption of 1.5 kWh per hour
+      electricityEmissions = monthlyHours * 1.5 * 0.43;
+    }
+
+    // Generator emissions (2.68 kg CO2 per liter of diesel)
     const generatorEmissions = Number(formData.generator) * 2.68;
 
     // Waste emissions
-    // Landfill waste: 2.86 kg CO2e per kg waste
     const wasteEmissions = Number(formData.waste) * 52 * 2.86;
-    // Recycling offset: -1.04 kg CO2e per kg recycled
     const recyclingOffset = Number(formData.recycling) * 52 * 1.04;
 
     // Convert to annual tons
     const transport = (carEmissions + busEmissions) * 12 / 1000;
     const energy = (electricityEmissions + generatorEmissions) * 12 / 1000;
     const waste = (wasteEmissions - recyclingOffset) / 1000;
+
+    console.log('Electricity Emissions (monthly):', electricityEmissions);
+    console.log('Energy Total (annual tons):', energy);
 
     return {
       total: transport + energy + waste,
