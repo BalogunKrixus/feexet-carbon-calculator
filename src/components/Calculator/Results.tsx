@@ -38,8 +38,8 @@ export const Results = ({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="h-[200px]">
+      <div className="space-y-6">
+        <div className="h-[250px] mx-auto max-w-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
