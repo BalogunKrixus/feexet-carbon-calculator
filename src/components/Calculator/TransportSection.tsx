@@ -25,10 +25,16 @@ export const TransportSection = ({
   values: { carKm: string; busKm: string };
   onChange: (field: string, value: string) => void;
 }) => {
-  const [transportMode, setTransportMode] = useState("car");
+  const [transportMode, setTransportMode] = useState("");
   const [frequency, setFrequency] = useState("monthly");
 
   useEffect(() => {
+    if (!transportMode) {
+      onChange("carKm", "0");
+      onChange("busKm", "0");
+      return;
+    }
+
     const baseDistance = BASE_DISTANCES[transportMode as keyof typeof BASE_DISTANCES];
     const multiplier = FREQUENCY_MULTIPLIERS[frequency as keyof typeof FREQUENCY_MULTIPLIERS];
     const estimatedDistance = baseDistance * multiplier;
