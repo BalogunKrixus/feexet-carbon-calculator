@@ -59,12 +59,21 @@ export const TransportOptions = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-base font-semibold">How do you commute most often?</Label>
-          <TooltipProvider delayDuration={0}>
+          <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                <button 
+                  type="button" 
+                  className="cursor-help focus:outline-none focus:ring-2 focus:ring-eco-primary focus:ring-offset-2 rounded-full"
+                >
+                  <Info className="h-4 w-4 text-muted-foreground" />
+                </button>
               </TooltipTrigger>
-              <TooltipContent side="top">
+              <TooltipContent 
+                side="top"
+                sideOffset={5}
+                className="touch-none"
+              >
                 <p className="max-w-xs">Select your primary mode of transportation for daily activities. This helps us calculate your carbon footprint based on typical Nigerian commuting patterns.</p>
               </TooltipContent>
             </Tooltip>
@@ -101,12 +110,21 @@ export const TransportOptions = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-base font-semibold">How often do you travel?</Label>
-          <TooltipProvider delayDuration={0}>
+          <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                <button 
+                  type="button" 
+                  className="cursor-help focus:outline-none focus:ring-2 focus:ring-eco-primary focus:ring-offset-2 rounded-full"
+                >
+                  <Info className="h-4 w-4 text-muted-foreground" />
+                </button>
               </TooltipTrigger>
-              <TooltipContent side="top">
+              <TooltipContent 
+                side="top"
+                sideOffset={5}
+                className="touch-none"
+              >
                 <p className="max-w-xs">Choose your travel frequency to help us estimate your monthly travel distance. For example, selecting 'Daily' means you commute every day, while 'Rarely' might mean occasional trips.</p>
               </TooltipContent>
             </Tooltip>
