@@ -63,7 +63,7 @@ export const TransportOptions = ({
                 <Info className="h-4 w-4 text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Select your primary mode of transportation</p>
+                <p>Select your primary mode of transportation for daily activities. This helps us calculate your carbon footprint based on typical Nigerian commuting patterns.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -105,7 +105,7 @@ export const TransportOptions = ({
                 <Info className="h-4 w-4 text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>This helps us estimate your monthly travel distance</p>
+                <p>Choose your travel frequency to help us estimate your monthly travel distance. For example, selecting 'Daily' means you commute every day, while 'Rarely' might mean occasional trips.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
