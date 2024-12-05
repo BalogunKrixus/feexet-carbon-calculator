@@ -123,7 +123,7 @@ export const Results = ({
           </div>
 
           <Button 
-            className="bg-eco-primary hover:bg-eco-primary/90"
+            className="bg-eco-primary hover:bg-eco-primary/90 rounded-md"
           >
             Sign Up Now <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
