@@ -2,6 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"];
 
@@ -39,11 +41,19 @@ const getSuggestions = (breakdown: { category: string; value: number }[]) => {
     }
   });
 
-  // Add a general suggestion if we have less than 3 specific ones
+  // Always add general suggestions to ensure we have at least 3
   if (suggestions.length < 3) {
     suggestions.push({
       icon: <Leaf className="w-5 h-5 text-eco-primary" />,
       text: "Plant trees or support local environmental initiatives to offset your carbon footprint."
+    });
+    suggestions.push({
+      icon: <Recycle className="w-5 h-5 text-eco-primary" />,
+      text: "Start a home composting system to reduce organic waste."
+    });
+    suggestions.push({
+      icon: <Lightbulb className="w-5 h-5 text-eco-primary" />,
+      text: "Use energy-efficient appliances and turn off lights when not in use."
     });
   }
 
@@ -58,6 +68,7 @@ export const Results = ({
   totalEmissions: number;
   breakdown: { category: string; value: number }[];
 }) => {
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const nigerianAverage = 0.5;
   const percentage = (totalEmissions / nigerianAverage) * 100;
   const suggestions = getSuggestions(breakdown);
@@ -137,17 +148,28 @@ export const Results = ({
         </div>
       </div>
 
-      <div className="mt-8 border-t pt-6">
-        <h4 className="font-semibold text-title mb-4">Suggestions to Reduce Your Carbon Footprint</h4>
-        <div className="space-y-4">
-          {suggestions.map((suggestion, index) => (
-            <div key={index} className="flex items-start gap-3">
-              {suggestion.icon}
-              <p className="text-sm text-gray-600">{suggestion.text}</p>
-            </div>
-          ))}
-        </div>
+      <div className="flex justify-center">
+        <Button
+          onClick={() => setShowSuggestions(true)}
+          className="bg-eco-primary hover:bg-eco-primary/90"
+        >
+          How can I reduce my carbon footprint?
+        </Button>
       </div>
+
+      {showSuggestions && (
+        <div className="mt-8 border-t pt-6">
+          <h4 className="font-semibold text-title mb-4">Suggestions to Reduce Your Carbon Footprint</h4>
+          <div className="space-y-4">
+            {suggestions.map((suggestion, index) => (
+              <div key={index} className="flex items-start gap-3">
+                {suggestion.icon}
+                <p className="text-sm text-gray-600">{suggestion.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </Card>
   );
 };
