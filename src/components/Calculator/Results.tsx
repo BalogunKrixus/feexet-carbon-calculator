@@ -122,6 +122,11 @@ export const Results = ({
             </div>
           </div>
 
+          {/* Disclaimer text moved above the button */}
+          <p className="text-sm text-gray-500 italic">
+            * This calculator provides estimates based on average emission factors in Nigeria
+          </p>
+
           <Button 
             className="bg-eco-primary hover:bg-eco-primary/90 rounded-full"
           >
