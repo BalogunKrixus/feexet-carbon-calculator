@@ -1,4 +1,4 @@
-import { Car, Bus, Bike } from "lucide-react";
+import { Car, Bus, Bike, Info } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,7 +8,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
 
 const FREQUENCY_OPTIONS = [
   { value: "daily", label: "Daily", multiplier: 30 },
@@ -57,13 +56,13 @@ export const TransportOptions = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-base font-semibold">How do you commute most often?</Label>
-          <TooltipProvider>
+          <TooltipProvider delayDuration={0}>
             <Tooltip>
-              <TooltipTrigger>
-                <Info className="h-4 w-4 text-muted-foreground" />
+              <TooltipTrigger asChild>
+                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Select your primary mode of transportation for daily activities. This helps us calculate your carbon footprint based on typical Nigerian commuting patterns.</p>
+              <TooltipContent side="right">
+                <p className="max-w-xs">Select your primary mode of transportation for daily activities. This helps us calculate your carbon footprint based on typical Nigerian commuting patterns.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -99,13 +98,13 @@ export const TransportOptions = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-base font-semibold">How often do you travel?</Label>
-          <TooltipProvider>
+          <TooltipProvider delayDuration={0}>
             <Tooltip>
-              <TooltipTrigger>
-                <Info className="h-4 w-4 text-muted-foreground" />
+              <TooltipTrigger asChild>
+                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Choose your travel frequency to help us estimate your monthly travel distance. For example, selecting 'Daily' means you commute every day, while 'Rarely' might mean occasional trips.</p>
+              <TooltipContent side="right">
+                <p className="max-w-xs">Choose your travel frequency to help us estimate your monthly travel distance. For example, selecting 'Daily' means you commute every day, while 'Rarely' might mean occasional trips.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
