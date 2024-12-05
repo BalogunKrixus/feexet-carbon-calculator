@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Results } from "@/components/Calculator/Results";
 import { HeroSection } from "@/components/Calculator/HeroSection";
 import { CalculatorTabs } from "@/components/Calculator/CalculatorTabs";
-import { ArrowRight } from "lucide-react";
 
 const DEFAULT_FORM_STATE = {
   carKm: "",
@@ -136,14 +135,6 @@ const Index = () => {
           <p className="text-sm text-gray-600">
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
-
-          <div className="mt-12 text-center">
-            <Button 
-              className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg font-semibold flex items-center gap-2 mx-auto"
-            >
-              Sign Up Now <ArrowRight className="w-5 h-5" />
-            </Button>
-          </div>
         </div>
       </div>
     </div>
