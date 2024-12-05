@@ -13,7 +13,7 @@ const Index = () => {
     waste: "",
     recycling: "",
     electricityHours: "",
-    electricityDays: "7",
+    electricityDays: "1", // Changed from "7" to "1"
     generatorType: "",
     generatorHours: "4",
     useExactElectricity: false,
@@ -111,7 +111,7 @@ const Index = () => {
               waste: "",
               recycling: "",
               electricityHours: "",
-              electricityDays: "7",
+              electricityDays: "1", // Changed from "7" to "1"
               generatorType: "",
               generatorHours: "4",
               useExactElectricity: false,
