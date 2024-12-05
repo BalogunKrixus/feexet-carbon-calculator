@@ -23,8 +23,8 @@ export const Results = ({
   };
 
   return (
-    <div className="space-y-8">
-      <Card className="p-6 space-y-6">
+    <div className="space-y-4">
+      <Card className="p-6 space-y-4">
         <h3 className="text-xl font-semibold text-title">Your Results</h3>
         
         <div className="space-y-2">
@@ -41,7 +41,7 @@ export const Results = ({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -68,7 +68,7 @@ export const Results = ({
             </ResponsiveContainer>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h4 className="font-semibold text-title">Breakdown by Category</h4>
             {breakdown.map((item, index) => (
               <div key={item.category} className="space-y-1">
@@ -94,8 +94,8 @@ export const Results = ({
       </Card>
 
       {/* Call-to-Action Section */}
-      <Card className="p-6 bg-gradient-to-br from-[#2F855A]/10 to-[#4C51BF]/10">
-        <div className="text-center space-y-6">
+      <Card className="p-6 bg-gradient-to-br from-[#2F855A]/5 to-[#4C51BF]/5">
+        <div className="text-center space-y-4">
           <h3 className="text-2xl font-bold text-title">
             Want a More Detailed Analysis?
           </h3>
@@ -104,28 +104,28 @@ export const Results = ({
             and actionable insights. Join us to create a sustainable future!
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-6">
-            <div className="flex flex-col items-center space-y-2 p-4">
-              <Award className="h-8 w-8 text-[#2F855A]" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
+            <div className="flex flex-col items-center space-y-2 p-3">
+              <Award className="h-6 w-6 text-[#2F855A]" />
               <h4 className="font-semibold">Detailed Analysis</h4>
               <p className="text-sm text-gray-600">Personalized recommendations and insights</p>
             </div>
-            <div className="flex flex-col items-center space-y-2 p-4">
-              <TreePine className="h-8 w-8 text-[#4C51BF]" />
+            <div className="flex flex-col items-center space-y-2 p-3">
+              <TreePine className="h-6 w-6 text-[#4C51BF]" />
               <h4 className="font-semibold">Project Suggestions</h4>
               <p className="text-sm text-gray-600">Local tree planting and renewable energy initiatives</p>
             </div>
-            <div className="flex flex-col items-center space-y-2 p-4">
-              <BookOpen className="h-8 w-8 text-[#F6E05E]" />
+            <div className="flex flex-col items-center space-y-2 p-3">
+              <BookOpen className="h-6 w-6 text-[#F6E05E]" />
               <h4 className="font-semibold">Educational Content</h4>
               <p className="text-sm text-gray-600">Access eco-friendly product recommendations</p>
             </div>
           </div>
 
           <Button 
-            className="bg-[#2F855A] hover:bg-[#2F855A]/90 text-white px-8 py-6 h-auto rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            className="bg-eco-primary hover:bg-eco-primary/90"
           >
-            Sign Up Now <ArrowRight className="ml-2" />
+            Sign Up Now <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </Card>
