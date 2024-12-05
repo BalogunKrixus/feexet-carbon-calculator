@@ -31,27 +31,33 @@ const PUBLIC_TRANSPORT_TYPES = [
 interface TransportOptionsProps {
   selectedMode: string;
   selectedFrequency: string;
+  selectedCarYear: string;
+  flightFrequency: string;
+  flightType: string;
   onModeChange: (value: string) => void;
   onFrequencyChange: (value: string) => void;
+  onCarYearChange: (value: string) => void;
+  onFlightFrequencyChange: (value: string) => void;
+  onFlightTypeChange: (value: string) => void;
 }
 
 export const TransportOptions = ({
   selectedMode,
   selectedFrequency,
+  selectedCarYear,
+  flightFrequency,
+  flightType,
   onModeChange,
   onFrequencyChange,
+  onCarYearChange,
+  onFlightFrequencyChange,
+  onFlightTypeChange,
 }: TransportOptionsProps) => {
-  const [carYear, setCarYear] = useState("");
   const [publicType, setPublicType] = useState("");
-  const [flightFrequency, setFlightFrequency] = useState("none");
-  const [flightType, setFlightType] = useState("domestic");
 
   useEffect(() => {
     const handleReset = () => {
-      setCarYear("");
       setPublicType("");
-      setFlightFrequency("none");
-      setFlightType("domestic");
     };
 
     window.addEventListener('reset', handleReset);
@@ -68,7 +74,7 @@ export const TransportOptions = ({
       {selectedMode === "car" && (
         <div className="space-y-4">
           <Label className="text-base font-semibold">What's the model year of your vehicle?</Label>
-          <Select value={carYear} onValueChange={setCarYear}>
+          <Select value={selectedCarYear} onValueChange={onCarYearChange}>
             <SelectTrigger>
               <SelectValue placeholder="Select vehicle year" />
             </SelectTrigger>
@@ -120,8 +126,8 @@ export const TransportOptions = ({
       <AirTravelSection
         flightFrequency={flightFrequency}
         flightType={flightType}
-        onFlightFrequencyChange={setFlightFrequency}
-        onFlightTypeChange={setFlightType}
+        onFlightFrequencyChange={onFlightFrequencyChange}
+        onFlightTypeChange={onFlightTypeChange}
       />
     </div>
   );

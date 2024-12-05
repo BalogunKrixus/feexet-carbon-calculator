@@ -27,11 +27,17 @@ export const TransportSection = ({
 }) => {
   const [transportMode, setTransportMode] = useState("");
   const [frequency, setFrequency] = useState("monthly");
+  const [carYear, setCarYear] = useState("");
+  const [flightFrequency, setFlightFrequency] = useState("none");
+  const [flightType, setFlightType] = useState("domestic");
 
   useEffect(() => {
     const handleReset = () => {
       setTransportMode("");
       setFrequency("monthly");
+      setCarYear("");
+      setFlightFrequency("none");
+      setFlightType("domestic");
     };
 
     window.addEventListener('reset', handleReset);
@@ -59,7 +65,6 @@ export const TransportSection = ({
         onChange("carKm", "0");
         break;
       case "bike":
-        // For bike/walking, set both to 0 as they don't produce emissions
         onChange("carKm", "0");
         onChange("busKm", "0");
         break;
@@ -71,9 +76,14 @@ export const TransportSection = ({
     console.log('Transport mode updated:', {
       mode: transportMode,
       frequency,
+      carYear,
       estimatedDistance,
+      flightData: {
+        frequency: flightFrequency,
+        type: flightType
+      }
     });
-  }, [transportMode, frequency, onChange]);
+  }, [transportMode, frequency, carYear, flightFrequency, flightType, onChange]);
 
   return (
     <Card className="p-6 space-y-4">
@@ -81,8 +91,14 @@ export const TransportSection = ({
       <TransportOptions
         selectedMode={transportMode}
         selectedFrequency={frequency}
+        selectedCarYear={carYear}
+        flightFrequency={flightFrequency}
+        flightType={flightType}
         onModeChange={setTransportMode}
         onFrequencyChange={setFrequency}
+        onCarYearChange={setCarYear}
+        onFlightFrequencyChange={setFlightFrequency}
+        onFlightTypeChange={setFlightType}
       />
     </Card>
   );
