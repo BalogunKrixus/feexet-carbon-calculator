@@ -4,6 +4,8 @@ import { TransportSection } from "@/components/Calculator/TransportSection";
 import { EnergySection } from "@/components/Calculator/EnergySection";
 import { WasteSection } from "@/components/Calculator/WasteSection";
 import { Results } from "@/components/Calculator/Results";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Car, Lightbulb, Trash2 } from "lucide-react";
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -102,9 +104,31 @@ const Index = () => {
         </div>
 
         <div className="space-y-6 animate-fade-in">
-          <TransportSection values={formData} onChange={handleChange} />
-          <EnergySection values={formData} onChange={handleChange} />
-          <WasteSection values={formData} onChange={handleChange} />
+          <Tabs defaultValue="transport" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsTrigger value="transport" className="flex items-center gap-2">
+                <Car className="h-4 w-4" />
+                Transport
+              </TabsTrigger>
+              <TabsTrigger value="energy" className="flex items-center gap-2">
+                <Lightbulb className="h-4 w-4" />
+                Energy
+              </TabsTrigger>
+              <TabsTrigger value="waste" className="flex items-center gap-2">
+                <Trash2 className="h-4 w-4" />
+                Waste
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="transport">
+              <TransportSection values={formData} onChange={handleChange} />
+            </TabsContent>
+            <TabsContent value="energy">
+              <EnergySection values={formData} onChange={handleChange} />
+            </TabsContent>
+            <TabsContent value="waste">
+              <WasteSection values={formData} onChange={handleChange} />
+            </TabsContent>
+          </Tabs>
         </div>
 
         <div className="animate-fade-in">
