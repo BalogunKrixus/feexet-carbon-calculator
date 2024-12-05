@@ -170,6 +170,22 @@ const Index = () => {
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
         </div>
+
+        <div className="mt-8 p-6 bg-white rounded-lg shadow-lg animate-fade-in">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Want a More Detailed Analysis?
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Get personalized recommendations and a comprehensive breakdown of your carbon footprint
+            </p>
+            <Button 
+              className="bg-eco-primary hover:bg-eco-primary/90 rounded-full"
+            >
+              Contact Our Experts
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
