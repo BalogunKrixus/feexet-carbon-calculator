@@ -59,9 +59,9 @@ export const calculateTransportEmissions = (
   const carEmissionFactor = getCarEmissionFactor(carYear);
   const frequencyMultiplier = getFrequencyMultiplier(frequency);
   
-  const carEmissions = Number(carKm) * carEmissionFactor * frequencyMultiplier;
-  const busEmissions = Number(busKm) * 0.082 * frequencyMultiplier;
-  const flightEmissions = getFlightEmissions(flightFrequency, flightType);
+  const carEmissions = Number(carKm) * carEmissionFactor;
+  const busEmissions = Number(busKm) * 0.082;
+  const flightEmissions = getFlightEmissions(flightFrequency, flightType) * 1000; // Convert to kg CO2
 
   console.log('Transport Emissions Calculation:', {
     carYear,

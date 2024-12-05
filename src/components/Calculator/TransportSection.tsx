@@ -73,6 +73,12 @@ export const TransportSection = ({
         onChange("busKm", "0");
     }
 
+    // Pass car year to parent
+    onChange("carYear", carYear);
+    // Pass flight data to parent
+    onChange("flightFrequency", flightFrequency);
+    onChange("flightType", flightType);
+
     console.log('Transport mode updated:', {
       mode: transportMode,
       frequency,
