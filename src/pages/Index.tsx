@@ -13,7 +13,6 @@ const Index = () => {
     generator: "",
     waste: "",
     recycling: "",
-    // Add the new required fields with empty string defaults
     electricityHours: "",
     electricityDays: "7",
     generatorType: "",
@@ -25,15 +24,26 @@ const Index = () => {
   };
 
   const calculateEmissions = () => {
-    // Simplified emission factors for demonstration
-    const carEmissions = Number(formData.carKm) * 0.2; // kg CO2 per km
-    const busEmissions = Number(formData.busKm) * 0.1; // kg CO2 per km
-    const electricityEmissions = Number(formData.electricity) * 0.5; // kg CO2 per kWh
-    const generatorEmissions = Number(formData.generator) * 2.7; // kg CO2 per liter
-    const wasteEmissions = Number(formData.waste) * 52 * 0.5; // kg CO2 per kg waste per year
-    const recyclingOffset = Number(formData.recycling) * 52 * 0.1; // kg CO2 saved per kg recycled per year
+    // Transport emissions
+    // Car: 0.14 kg CO2 per km (average Nigerian car)
+    const carEmissions = Number(formData.carKm) * 0.14;
+    // Bus: 0.082 kg CO2 per km per passenger (public transport)
+    const busEmissions = Number(formData.busKm) * 0.082;
 
-    const transport = (carEmissions + busEmissions) * 12 / 1000; // Convert to tons per year
+    // Energy emissions
+    // Grid electricity: 0.43 kg CO2 per kWh (Nigerian grid factor)
+    const electricityEmissions = Number(formData.electricity) * 0.43;
+    // Generator: 2.68 kg CO2 per liter of diesel
+    const generatorEmissions = Number(formData.generator) * 2.68;
+
+    // Waste emissions
+    // Landfill waste: 2.86 kg CO2e per kg waste
+    const wasteEmissions = Number(formData.waste) * 52 * 2.86;
+    // Recycling offset: -1.04 kg CO2e per kg recycled
+    const recyclingOffset = Number(formData.recycling) * 52 * 1.04;
+
+    // Convert to annual tons
+    const transport = (carEmissions + busEmissions) * 12 / 1000;
     const energy = (electricityEmissions + generatorEmissions) * 12 / 1000;
     const waste = (wasteEmissions - recyclingOffset) / 1000;
 
