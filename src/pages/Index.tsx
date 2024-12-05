@@ -49,14 +49,14 @@ const Index = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/50 z-10" /> {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/70 z-10" /> {/* Darker overlay */}
           <img
             src="/lovable-uploads/b035a820-5d42-40d3-8956-4d2870f7ccf9.png"
             alt="Busy Nigerian street with yellow buses and crowds"
             className="w-full h-[600px] object-cover"
           />
         </div>
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-36 text-center">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
             Nigeria's Most Accurate Carbon Footprint Calculator
           </h1>
