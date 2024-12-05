@@ -66,6 +66,7 @@ const calculateWasteEmissions = (waste: string, recycling: string) => {
 
 const Index = () => {
   const [formData, setFormData] = useState(DEFAULT_FORM_STATE);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const calculateEmissions = () => {
     const { carEmissions, busEmissions } = calculateTransportEmissions(formData.carKm, formData.busKm);
@@ -121,13 +122,18 @@ const Index = () => {
           <Results
             totalEmissions={results.total}
             breakdown={results.breakdown}
+            showSuggestions={showSuggestions}
+            setShowSuggestions={setShowSuggestions}
           />
         </div>
 
         <div className="text-center space-y-6 animate-fade-in">
           <Button
             className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={() => setFormData(DEFAULT_FORM_STATE)}
+            onClick={() => {
+              setFormData(DEFAULT_FORM_STATE);
+              setShowSuggestions(false);
+            }}
           >
             Reset Calculator
           </Button>

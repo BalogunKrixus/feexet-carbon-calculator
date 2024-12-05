@@ -3,7 +3,6 @@ import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"];
 
@@ -64,11 +63,14 @@ const getSuggestions = (breakdown: { category: string; value: number }[]) => {
 export const Results = ({
   totalEmissions,
   breakdown,
+  showSuggestions,
+  setShowSuggestions,
 }: {
   totalEmissions: number;
   breakdown: { category: string; value: number }[];
+  showSuggestions: boolean;
+  setShowSuggestions: (show: boolean) => void;
 }) => {
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const nigerianAverage = 0.5;
   const percentage = (totalEmissions / nigerianAverage) * 100;
   const suggestions = getSuggestions(breakdown);
