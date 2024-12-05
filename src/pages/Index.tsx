@@ -3,98 +3,76 @@ import { Button } from "@/components/ui/button";
 import { Results } from "@/components/Calculator/Results";
 import { HeroSection } from "@/components/Calculator/HeroSection";
 import { CalculatorTabs } from "@/components/Calculator/CalculatorTabs";
+import { ArrowRight } from "lucide-react";
+
+const DEFAULT_FORM_STATE = {
+  carKm: "",
+  busKm: "",
+  electricity: "",
+  generator: "",
+  waste: "",
+  recycling: "",
+  electricityHours: "",
+  electricityDays: "1",
+  generatorType: "",
+  generatorHours: "4",
+  useExactElectricity: false,
+};
+
+const calculateTransportEmissions = (carKm: string, busKm: string) => {
+  const carEmissions = Number(carKm) * 0.14;
+  const busEmissions = Number(busKm) * 0.082;
+  return { carEmissions, busEmissions };
+};
+
+const calculateEnergyEmissions = (formData: typeof DEFAULT_FORM_STATE) => {
+  let electricityEmissions = 0;
+  
+  if (formData.useExactElectricity) {
+    electricityEmissions = Number(formData.electricity) * 0.43;
+  } else if (formData.electricityHours) {
+    const averageHours = formData.electricityHours === "24" ? 24 
+      : formData.electricityHours === "18-24" ? 21 
+      : formData.electricityHours === "12-18" ? 15 
+      : formData.electricityHours === "6-12" ? 9 
+      : 3;
+    
+    const daysPerWeek = Number(formData.electricityDays);
+    const monthlyHours = (averageHours * daysPerWeek * 4.33);
+    electricityEmissions = monthlyHours * 1.5 * 0.43;
+  }
+
+  let generatorEmissions = 0;
+  if (formData.generatorType && formData.generatorHours) {
+    const fuelRates = {
+      small: 0.7,
+      medium: 1.2,
+      large: 2.0
+    };
+
+    const hoursPerDay = Number(formData.generatorHours);
+    const fuelRate = fuelRates[formData.generatorType as keyof typeof fuelRates];
+    const monthlyFuel = hoursPerDay * 30 * fuelRate;
+    generatorEmissions = monthlyFuel * 2.68;
+  }
+
+  return { electricityEmissions, generatorEmissions };
+};
+
+const calculateWasteEmissions = (waste: string, recycling: string) => {
+  const wasteEmissions = Number(waste) * 52 * 2.86;
+  const recyclingOffset = Number(recycling) * 52 * 1.04;
+  return { wasteEmissions, recyclingOffset };
+};
 
 const Index = () => {
-  const [formData, setFormData] = useState({
-    carKm: "",
-    busKm: "",
-    electricity: "",
-    generator: "",
-    waste: "",
-    recycling: "",
-    electricityHours: "",
-    electricityDays: "1",
-    generatorType: "",
-    generatorHours: "4",
-    useExactElectricity: false,
-  });
+  const [formData, setFormData] = useState(DEFAULT_FORM_STATE);
 
   const calculateEmissions = () => {
-    // Transport emissions (updated with more accurate factors)
-    const carEmissions = Number(formData.carKm) * 0.14; // 0.14 kg CO2/km for average car
-    const busEmissions = Number(formData.busKm) * 0.082; // 0.082 kg CO2/km for bus
-    
-    console.log('Transport Calculations:', {
-      carKm: formData.carKm,
-      busKm: formData.busKm,
-      carEmissions,
-      busEmissions
-    });
+    const { carEmissions, busEmissions } = calculateTransportEmissions(formData.carKm, formData.busKm);
+    const { electricityEmissions, generatorEmissions } = calculateEnergyEmissions(formData);
+    const { wasteEmissions, recyclingOffset } = calculateWasteEmissions(formData.waste, formData.recycling);
 
-    // Energy emissions
-    let electricityEmissions = 0;
-    
-    if (formData.useExactElectricity) {
-      // Nigeria's grid emission factor: 0.43 kg CO2/kWh
-      electricityEmissions = Number(formData.electricity) * 0.43;
-    } else if (formData.electricityHours) {
-      const averageHours = formData.electricityHours === "24" ? 24 
-        : formData.electricityHours === "18-24" ? 21 
-        : formData.electricityHours === "12-18" ? 15 
-        : formData.electricityHours === "6-12" ? 9 
-        : 3;
-      
-      const daysPerWeek = Number(formData.electricityDays);
-      const monthlyHours = (averageHours * daysPerWeek * 4.33);
-      // Average household consumption: 1.5 kWh per hour
-      electricityEmissions = monthlyHours * 1.5 * 0.43;
-    }
-
-    console.log('Electricity Calculations:', {
-      useExact: formData.useExactElectricity,
-      hours: formData.electricityHours,
-      days: formData.electricityDays,
-      emissions: electricityEmissions
-    });
-
-    // Generator emissions calculation
-    let generatorEmissions = 0;
-    if (formData.generatorType && formData.generatorHours) {
-      const fuelRates = {
-        small: 0.7,  // Small generator (< 2.5 KVA)
-        medium: 1.2, // Medium generator (2.5-5 KVA)
-        large: 2.0   // Large generator (> 5 KVA)
-      };
-
-      const hoursPerDay = Number(formData.generatorHours);
-      const fuelRate = fuelRates[formData.generatorType as keyof typeof fuelRates];
-      const monthlyFuel = hoursPerDay * 30 * fuelRate;
-      // Diesel emission factor: 2.68 kg CO2 per liter
-      generatorEmissions = monthlyFuel * 2.68;
-
-      console.log('Generator Calculations:', {
-        type: formData.generatorType,
-        hours: hoursPerDay,
-        fuelRate,
-        monthlyFuel,
-        emissions: generatorEmissions
-      });
-    }
-
-    // Waste emissions
-    // Average waste emission: 2.86 kg CO2 per kg of waste
-    const wasteEmissions = Number(formData.waste) * 52 * 2.86;
-    // Recycling reduces emissions by 1.04 kg CO2 per kg recycled
-    const recyclingOffset = Number(formData.recycling) * 52 * 1.04;
-
-    console.log('Waste Calculations:', {
-      waste: formData.waste,
-      recycling: formData.recycling,
-      wasteEmissions,
-      recyclingOffset
-    });
-
-    // Convert to annual tons (divide by 1000 to convert from kg to tons)
     const transport = (carEmissions + busEmissions) * 12 / 1000;
     const energy = (electricityEmissions + generatorEmissions) * 12 / 1000;
     const waste = (wasteEmissions - recyclingOffset) / 1000;
@@ -147,28 +125,25 @@ const Index = () => {
           />
         </div>
 
-        <div className="text-center space-y-4 animate-fade-in">
+        <div className="text-center space-y-6 animate-fade-in">
           <Button
             className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={() => setFormData({
-              carKm: "",
-              busKm: "",
-              electricity: "",
-              generator: "",
-              waste: "",
-              recycling: "",
-              electricityHours: "",
-              electricityDays: "1",
-              generatorType: "",
-              generatorHours: "4",
-              useExactElectricity: false,
-            })}
+            onClick={() => setFormData(DEFAULT_FORM_STATE)}
           >
             Reset Calculator
           </Button>
+          
           <p className="text-sm text-gray-600">
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
+
+          <div className="mt-12 text-center">
+            <Button 
+              className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg font-semibold flex items-center gap-2 mx-auto"
+            >
+              Sign Up Now <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
