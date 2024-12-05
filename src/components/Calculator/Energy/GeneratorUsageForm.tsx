@@ -1,5 +1,4 @@
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 
@@ -49,20 +48,6 @@ export const GeneratorUsageForm = ({ values, onChange }: GeneratorUsageFormProps
         <div className="text-sm text-muted-foreground text-center">
           {values.generatorHours || "0"} hours
         </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="generator">Monthly generator fuel consumption (liters)</Label>
-        <Input
-          id="generator"
-          type="number"
-          placeholder="0"
-          value={values.generator}
-          onChange={(e) => onChange("generator", e.target.value)}
-        />
-        <p className="text-sm text-muted-foreground">
-          Most households with a medium generator use about 5 liters/day if run for 5 hours
-        </p>
       </div>
 
       {values.generatorType && values.generatorHours && (
