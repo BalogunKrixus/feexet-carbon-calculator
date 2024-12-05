@@ -98,6 +98,14 @@ const Index = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleReset = () => {
+    setFormData(DEFAULT_FORM_STATE);
+    setShowSuggestions(false);
+    // Force a re-render of all components by triggering state changes
+    const event = new Event('reset');
+    window.dispatchEvent(event);
+  };
+
   const results = calculateEmissions();
 
   return (
@@ -130,10 +138,7 @@ const Index = () => {
         <div className="text-center space-y-6 animate-fade-in">
           <Button
             className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={() => {
-              setFormData(DEFAULT_FORM_STATE);
-              setShowSuggestions(false);
-            }}
+            onClick={handleReset}
           >
             Reset Calculator
           </Button>
