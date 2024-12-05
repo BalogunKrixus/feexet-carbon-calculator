@@ -44,6 +44,18 @@ export const EnergySection = ({
     return Math.round(monthlyHours);
   };
 
+  const handleExactUsageChange = (checked: boolean) => {
+    onChange("useExactElectricity", checked);
+    if (checked) {
+      // When enabling exact usage, clear the estimation fields
+      onChange("electricityHours", "");
+      onChange("electricityDays", "7");
+    } else {
+      // When disabling exact usage, clear the exact usage field
+      onChange("electricity", "");
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="electricity" className="w-full">
@@ -63,6 +75,7 @@ export const EnergySection = ({
               <div className={`space-y-4 ${values.useExactElectricity ? 'opacity-50 pointer-events-none' : ''}`}>
                 <Label>How many hours of electricity do you typically have in a day?</Label>
                 <Select 
+                  value={values.electricityHours}
                   onValueChange={(value) => onChange("electricityHours", value)}
                   disabled={values.useExactElectricity}
                 >
@@ -82,7 +95,7 @@ export const EnergySection = ({
               <div className={`space-y-4 ${values.useExactElectricity ? 'opacity-50 pointer-events-none' : ''}`}>
                 <Label>How many days per week do you have electricity?</Label>
                 <Slider
-                  defaultValue={[7]}
+                  value={[parseInt(values.electricityDays) || 7]}
                   max={7}
                   min={1}
                   step={1}
@@ -98,12 +111,7 @@ export const EnergySection = ({
                 <Checkbox 
                   id="exactUsage"
                   checked={values.useExactElectricity}
-                  onCheckedChange={(checked) => {
-                    onChange("useExactElectricity", checked ? "true" : "false");
-                    if (!checked) {
-                      onChange("electricity", "");
-                    }
-                  }}
+                  onCheckedChange={handleExactUsageChange}
                 />
                 <Label htmlFor="exactUsage" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   I know my exact monthly electricity usage
