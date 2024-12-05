@@ -1,8 +1,55 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
 
 const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"];
+
+const getSuggestions = (breakdown: { category: string; value: number }[]) => {
+  const suggestions: { icon: JSX.Element; text: string }[] = [];
+  
+  breakdown.forEach(({ category, value }) => {
+    if (category === "Transport" && value > 1) {
+      suggestions.push({
+        icon: <Car className="w-5 h-5 text-eco-primary" />,
+        text: "Consider using public transportation or carpooling more frequently to reduce your transport emissions."
+      });
+      suggestions.push({
+        icon: <Car className="w-5 h-5 text-eco-primary" />,
+        text: "Try walking or cycling for short distances instead of driving."
+      });
+    }
+    
+    if (category === "Energy" && value > 1.5) {
+      suggestions.push({
+        icon: <Lightbulb className="w-5 h-5 text-eco-primary" />,
+        text: "Switch to energy-efficient LED bulbs and turn off appliances when not in use."
+      });
+      suggestions.push({
+        icon: <Lightbulb className="w-5 h-5 text-eco-primary" />,
+        text: "Consider using natural lighting during the day and reduce generator usage when possible."
+      });
+    }
+    
+    if (category === "Waste" && value > 0.5) {
+      suggestions.push({
+        icon: <Recycle className="w-5 h-5 text-eco-primary" />,
+        text: "Increase your recycling efforts and try composting organic waste."
+      });
+    }
+  });
+
+  // Add a general suggestion if we have less than 3 specific ones
+  if (suggestions.length < 3) {
+    suggestions.push({
+      icon: <Leaf className="w-5 h-5 text-eco-primary" />,
+      text: "Plant trees or support local environmental initiatives to offset your carbon footprint."
+    });
+  }
+
+  // Return 3-5 suggestions
+  return suggestions.slice(0, 5);
+};
 
 export const Results = ({
   totalEmissions,
@@ -13,6 +60,7 @@ export const Results = ({
 }) => {
   const nigerianAverage = 0.5;
   const percentage = (totalEmissions / nigerianAverage) * 100;
+  const suggestions = getSuggestions(breakdown);
 
   const getProgressColor = (index: number) => {
     if (index === 0) return "bg-[#2F855A]";
@@ -84,6 +132,18 @@ export const Results = ({
                 className="h-1.5"
                 indicatorClassName={getProgressColor(index)}
               />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 border-t pt-6">
+        <h4 className="font-semibold text-title mb-4">Suggestions to Reduce Your Carbon Footprint</h4>
+        <div className="space-y-4">
+          {suggestions.map((suggestion, index) => (
+            <div key={index} className="flex items-start gap-3">
+              {suggestion.icon}
+              <p className="text-sm text-gray-600">{suggestion.text}</p>
             </div>
           ))}
         </div>
