@@ -22,7 +22,7 @@ const FREQUENCY_OPTIONS = [
 const TRANSPORT_MODES = [
   { 
     value: "car", 
-    label: "Car (Petrol)", 
+    label: "Car (Fuel)", 
     icon: Car, 
     baseDistance: 500,
     tooltip: "Average car travels 500 km/month in urban Nigeria" 
