@@ -13,7 +13,7 @@ export const HeroSection = () => {
         <img
           src="/lovable-uploads/b035a820-5d42-40d3-8956-4d2870f7ccf9.png"
           alt="Busy Nigerian street with yellow buses and crowds"
-          className="w-full h-[600px] object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
       <div className="relative z-20">
