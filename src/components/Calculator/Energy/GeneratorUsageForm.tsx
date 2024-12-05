@@ -25,7 +25,7 @@ export const GeneratorUsageForm = ({ values, onChange }: GeneratorUsageFormProps
         <Label>What type of generator do you use?</Label>
         <Select onValueChange={(value) => onChange("generatorType", value)}>
           <SelectTrigger>
-            <SelectValue placeholder="Select generator type" />
+            <SelectValue placeholder="Select generator" />
           </SelectTrigger>
           <SelectContent>
             {GENERATOR_TYPES.map((type) => (
