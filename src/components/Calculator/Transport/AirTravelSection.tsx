@@ -22,10 +22,10 @@ export const AirTravelSection = ({
   onFlightTypeChange,
 }: AirTravelProps) => {
   return (
-    <div className="space-y-4 border-t pt-6">
+    <div className="space-y-6 border-t pt-6">
       <Label className="text-base font-semibold">Air Travel</Label>
-      <div className="grid gap-4">
-        <div>
+      <div className="space-y-4">
+        <div className="space-y-2">
           <Label>How often do you fly?</Label>
           <Select value={flightFrequency} onValueChange={onFlightFrequencyChange}>
             <SelectTrigger>
@@ -42,7 +42,7 @@ export const AirTravelSection = ({
         </div>
         
         {flightFrequency !== "none" && (
-          <div>
+          <div className="space-y-2">
             <Label>What type of flights do you usually take?</Label>
             <Select value={flightType} onValueChange={onFlightTypeChange}>
               <SelectTrigger>
