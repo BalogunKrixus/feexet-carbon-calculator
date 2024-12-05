@@ -19,26 +19,25 @@ const Index = () => {
     useExactElectricity: false,
   });
 
-  const handleChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
   const calculateEmissions = () => {
     // Transport emissions (updated with more accurate factors)
-    // Car: 0.14 kg CO2 per km (reduced from previous value)
-    const carEmissions = Number(formData.carKm) * 0.14;
-    // Bus: 0.082 kg CO2 per km (public transport is more efficient)
-    const busEmissions = Number(formData.busKm) * 0.082;
+    const carEmissions = Number(formData.carKm) * 0.14; // 0.14 kg CO2/km for average car
+    const busEmissions = Number(formData.busKm) * 0.082; // 0.082 kg CO2/km for bus
+    
+    console.log('Transport Calculations:', {
+      carKm: formData.carKm,
+      busKm: formData.busKm,
+      carEmissions,
+      busEmissions
+    });
 
     // Energy emissions
     let electricityEmissions = 0;
     
     if (formData.useExactElectricity) {
-      // If user provided exact monthly usage (kWh)
       // Nigeria's grid emission factor: 0.43 kg CO2/kWh
       electricityEmissions = Number(formData.electricity) * 0.43;
     } else if (formData.electricityHours) {
-      // Calculate based on usage pattern
       const averageHours = formData.electricityHours === "24" ? 24 
         : formData.electricityHours === "18-24" ? 21 
         : formData.electricityHours === "12-18" ? 15 
@@ -51,10 +50,16 @@ const Index = () => {
       electricityEmissions = monthlyHours * 1.5 * 0.43;
     }
 
-    // Generator emissions calculation (updated)
+    console.log('Electricity Calculations:', {
+      useExact: formData.useExactElectricity,
+      hours: formData.electricityHours,
+      days: formData.electricityDays,
+      emissions: electricityEmissions
+    });
+
+    // Generator emissions calculation
     let generatorEmissions = 0;
     if (formData.generatorType && formData.generatorHours) {
-      // Generator fuel consumption rates (L/hour)
       const fuelRates = {
         small: 0.7,  // Small generator (< 2.5 KVA)
         medium: 1.2, // Medium generator (2.5-5 KVA)
@@ -64,28 +69,42 @@ const Index = () => {
       const hoursPerDay = Number(formData.generatorHours);
       const fuelRate = fuelRates[formData.generatorType as keyof typeof fuelRates];
       const monthlyFuel = hoursPerDay * 30 * fuelRate;
-      
       // Diesel emission factor: 2.68 kg CO2 per liter
       generatorEmissions = monthlyFuel * 2.68;
+
+      console.log('Generator Calculations:', {
+        type: formData.generatorType,
+        hours: hoursPerDay,
+        fuelRate,
+        monthlyFuel,
+        emissions: generatorEmissions
+      });
     }
 
-    // Waste emissions (updated with more accurate factors)
+    // Waste emissions
     // Average waste emission: 2.86 kg CO2 per kg of waste
     const wasteEmissions = Number(formData.waste) * 52 * 2.86;
     // Recycling reduces emissions by 1.04 kg CO2 per kg recycled
     const recyclingOffset = Number(formData.recycling) * 52 * 1.04;
+
+    console.log('Waste Calculations:', {
+      waste: formData.waste,
+      recycling: formData.recycling,
+      wasteEmissions,
+      recyclingOffset
+    });
 
     // Convert to annual tons (divide by 1000 to convert from kg to tons)
     const transport = (carEmissions + busEmissions) * 12 / 1000;
     const energy = (electricityEmissions + generatorEmissions) * 12 / 1000;
     const waste = (wasteEmissions - recyclingOffset) / 1000;
 
-    console.log('Transport Emissions (annual tons):', transport);
-    console.log('Energy Emissions (annual tons):', energy);
-    console.log('Waste Emissions (annual tons):', waste);
-    console.log('Generator Monthly Fuel:', formData.generator, 'L');
-    console.log('Generator Hours:', formData.generatorHours);
-    console.log('Generator Type:', formData.generatorType);
+    console.log('Final Annual Emissions (tons):', {
+      transport,
+      energy,
+      waste,
+      total: transport + energy + waste
+    });
 
     return {
       total: transport + energy + waste,
@@ -95,6 +114,10 @@ const Index = () => {
         { category: "Waste", value: waste },
       ],
     };
+  };
+
+  const handleChange = (field: string, value: string | boolean) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const results = calculateEmissions();
