@@ -166,9 +166,52 @@ const Index = () => {
           >
             Reset Calculator
           </Button>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mb-8">
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
+
+          <div className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+            <h3 className="text-2xl font-bold text-title">Want a More Detailed Analysis?</h3>
+            <p className="text-gray-600">
+              Get a detailed analysis of your carbon footprint, personalized AI recommendations, and actionable insights. Join us to create a sustainable future!
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+              <div className="flex flex-col items-center space-y-3">
+                <div className="text-eco-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                </div>
+                <h4 className="font-semibold">Detailed Analysis</h4>
+                <p className="text-sm text-gray-600 text-center">
+                  Personalized recommendations and insights
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center space-y-3">
+                <div className="text-blue-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 22a8 8 0 1 1 16 0"/><path d="M10 6a6 6 0 0 1 12 0c0 7-7.5 11-10 12.5-1.5-.9-4.8-2.8-7.5-5.5"/></svg>
+                </div>
+                <h4 className="font-semibold">Project Suggestions</h4>
+                <p className="text-sm text-gray-600 text-center">
+                  Local tree planting and renewable energy initiatives
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center space-y-3">
+                <div className="text-yellow-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                </div>
+                <h4 className="font-semibold">Educational Content</h4>
+                <p className="text-sm text-gray-600 text-center">
+                  Access eco-friendly product recommendations
+                </p>
+              </div>
+            </div>
+
+            <Button className="mt-8 bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+              Sign Up Now <span className="ml-2">→</span>
+            </Button>
+          </div>
         </div>
       </div>
     </div>
