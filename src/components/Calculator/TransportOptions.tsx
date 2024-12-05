@@ -1,4 +1,4 @@
-import { Car, Bus, Bike, Info } from "lucide-react";
+import { Car, Bus, Bike, Info, Plane, Train } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useState } from "react";
 
 const FREQUENCY_OPTIONS = [
   { value: "daily", label: "Daily (7 days/week)", multiplier: 30 },
@@ -28,11 +29,11 @@ const TRANSPORT_MODES = [
     tooltip: "Average car travels 500 km/month in urban Nigeria" 
   },
   { 
-    value: "bus", 
-    label: "Public Bus", 
+    value: "public", 
+    label: "Public Transport", 
     icon: Bus, 
     baseDistance: 300,
-    tooltip: "Typical monthly commute distance by public transport" 
+    tooltip: "Public transportation options in Nigeria" 
   },
   { 
     value: "bike", 
@@ -41,6 +42,27 @@ const TRANSPORT_MODES = [
     baseDistance: 100,
     tooltip: "Eco-friendly option with zero emissions" 
   },
+];
+
+const CAR_YEARS = [
+  { value: "new", label: "2020 or newer" },
+  { value: "recent", label: "2015-2019" },
+  { value: "older", label: "2010-2014" },
+  { value: "old", label: "Before 2010" },
+];
+
+const PUBLIC_TRANSPORT_TYPES = [
+  { value: "bus", label: "Bus" },
+  { value: "train", label: "Train" },
+  { value: "keke", label: "Keke Napep" },
+  { value: "okada", label: "Okada" },
+];
+
+const FLIGHT_FREQUENCIES = [
+  { value: "none", label: "No flights" },
+  { value: "rare", label: "1-2 flights per year" },
+  { value: "occasional", label: "3-5 flights per year" },
+  { value: "frequent", label: "6+ flights per year" },
 ];
 
 export const TransportOptions = ({
@@ -54,6 +76,11 @@ export const TransportOptions = ({
   onModeChange: (value: string) => void;
   onFrequencyChange: (value: string) => void;
 }) => {
+  const [carYear, setCarYear] = useState("");
+  const [publicType, setPublicType] = useState("");
+  const [flightFrequency, setFlightFrequency] = useState("none");
+  const [flightType, setFlightType] = useState("domestic");
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -107,6 +134,42 @@ export const TransportOptions = ({
         </RadioGroup>
       </div>
 
+      {selectedMode === "car" && (
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">What's the model year of your vehicle?</Label>
+          <Select value={carYear} onValueChange={setCarYear}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select vehicle year" />
+            </SelectTrigger>
+            <SelectContent>
+              {CAR_YEARS.map((year) => (
+                <SelectItem key={year.value} value={year.value}>
+                  {year.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {selectedMode === "public" && (
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">What type of public transport do you use?</Label>
+          <Select value={publicType} onValueChange={setPublicType}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select transport type" />
+            </SelectTrigger>
+            <SelectContent>
+              {PUBLIC_TRANSPORT_TYPES.map((type) => (
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-base font-semibold">How often do you commute?</Label>
@@ -143,6 +206,43 @@ export const TransportOptions = ({
             ))}
           </SelectContent>
         </Select>
+      </div>
+
+      <div className="space-y-4 border-t pt-4">
+        <Label className="text-base font-semibold">Air Travel</Label>
+        <div className="grid gap-4">
+          <div>
+            <Label>How often do you fly?</Label>
+            <Select value={flightFrequency} onValueChange={setFlightFrequency}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select flight frequency" />
+              </SelectTrigger>
+              <SelectContent>
+                {FLIGHT_FREQUENCIES.map((freq) => (
+                  <SelectItem key={freq.value} value={freq.value}>
+                    {freq.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          {flightFrequency !== "none" && (
+            <div>
+              <Label>What type of flights do you usually take?</Label>
+              <Select value={flightType} onValueChange={setFlightType}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select flight type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="domestic">Domestic Flights</SelectItem>
+                  <SelectItem value="international">International Flights</SelectItem>
+                  <SelectItem value="both">Both Domestic and International</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
