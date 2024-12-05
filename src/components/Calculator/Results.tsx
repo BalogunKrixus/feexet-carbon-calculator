@@ -34,7 +34,7 @@ export const Results = ({
         <Progress 
           value={percentage} 
           className="h-2" 
-          indicatorClassName="bg-[#2F855A]"
+          indicatorClassName="bg-eco-primary"
         />
       </div>
 
