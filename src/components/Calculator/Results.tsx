@@ -15,6 +15,10 @@ export const Results = ({
   const nigerianAverage = 0.5; // Tons CO2 per year per capita
   const percentage = (totalEmissions / nigerianAverage) * 100;
 
+  const getProgressColor = (index: number) => {
+    return COLORS[index % COLORS.length];
+  };
+
   return (
     <Card className="p-6 space-y-6">
       <h3 className="text-xl font-semibold text-title">Your Results</h3>
@@ -77,7 +81,7 @@ export const Results = ({
               <Progress
                 value={(item.value / totalEmissions) * 100}
                 className="h-1.5"
-                indicatorClassName={`bg-[${COLORS[index % COLORS.length]}]`}
+                indicatorClassName={`bg-[${getProgressColor(index)}]`}
               />
             </div>
           ))}
