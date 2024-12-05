@@ -11,7 +11,7 @@ export const WasteSection = ({
 }) => {
   return (
     <Card className="p-6 space-y-4">
-      <h3 className="text-xl font-semibold text-eco-primary">Waste Management</h3>
+      <h3 className="text-xl font-semibold text-title">Waste Management</h3>
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="waste">Weekly household waste (kg)</Label>

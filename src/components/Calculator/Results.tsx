@@ -16,10 +16,10 @@ export const Results = ({
 
   return (
     <Card className="p-6 space-y-6">
-      <h3 className="text-xl font-semibold text-eco-primary">Your Results</h3>
+      <h3 className="text-xl font-semibold text-title">Your Results</h3>
       
       <div className="space-y-2">
-        <p className="text-2xl font-bold text-eco-dark">
+        <p className="text-2xl font-bold text-title">
           {totalEmissions.toFixed(2)} tons CO₂e/year
         </p>
         <p className="text-sm text-gray-600">
@@ -53,7 +53,7 @@ export const Results = ({
         </div>
 
         <div className="space-y-4">
-          <h4 className="font-semibold">Breakdown by Category</h4>
+          <h4 className="font-semibold text-title">Breakdown by Category</h4>
           {breakdown.map((item, index) => (
             <div key={item.category} className="space-y-1">
               <div className="flex justify-between text-sm">

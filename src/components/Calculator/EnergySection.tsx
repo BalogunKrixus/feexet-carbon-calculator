@@ -11,7 +11,7 @@ export const EnergySection = ({
 }) => {
   return (
     <Card className="p-6 space-y-4">
-      <h3 className="text-xl font-semibold text-eco-primary">Home Energy</h3>
+      <h3 className="text-xl font-semibold text-title">Home Energy</h3>
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="electricity">Monthly electricity usage (kWh)</Label>

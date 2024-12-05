@@ -49,7 +49,7 @@ const Index = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/80 z-10" /> {/* Even darker overlay */}
+          <div className="absolute inset-0 bg-black/80 z-10" />
           <img
             src="/lovable-uploads/b035a820-5d42-40d3-8956-4d2870f7ccf9.png"
             alt="Busy Nigerian street with yellow buses and crowds"
@@ -78,7 +78,7 @@ const Index = () => {
       {/* Calculator Section */}
       <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl font-bold text-eco-primary mb-4">
+          <h2 className="text-3xl font-bold text-title mb-4">
             Carbon Footprint Calculator
           </h2>
           <p className="text-gray-600">
