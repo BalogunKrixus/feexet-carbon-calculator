@@ -31,7 +31,7 @@ export const DEFAULT_FORM_STATE: EmissionsFormData = {
   electricityHours: "",
   electricityDays: "1",
   generatorType: "",
-  generatorHours: "4",
+  generatorHours: "0",
   useExactElectricity: false,
   carYear: "",
   flightFrequency: "none",

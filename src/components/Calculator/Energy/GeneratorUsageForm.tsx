@@ -40,14 +40,14 @@ export const GeneratorUsageForm = ({ values, onChange }: GeneratorUsageFormProps
       <div className="space-y-4">
         <Label>How many hours do you run your generator daily?</Label>
         <Slider
-          defaultValue={[4]}
+          defaultValue={[0]}
           max={24}
           min={0}
           step={1}
           onValueChange={(value) => onChange("generatorHours", value[0].toString())}
         />
         <div className="text-sm text-muted-foreground text-center">
-          {values.generatorHours || "4"} hours
+          {values.generatorHours || "0"} hours
         </div>
       </div>
 
