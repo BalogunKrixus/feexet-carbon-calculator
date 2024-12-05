@@ -13,6 +13,11 @@ const Index = () => {
     generator: "",
     waste: "",
     recycling: "",
+    // Add the new required fields with empty string defaults
+    electricityHours: "",
+    electricityDays: "7",
+    generatorType: "",
+    generatorHours: "4",
   });
 
   const handleChange = (field: string, value: string) => {
@@ -109,6 +114,10 @@ const Index = () => {
               generator: "",
               waste: "",
               recycling: "",
+              electricityHours: "",
+              electricityDays: "7",
+              generatorType: "",
+              generatorHours: "4",
             })}
           >
             Reset Calculator
