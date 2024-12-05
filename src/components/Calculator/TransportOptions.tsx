@@ -109,7 +109,7 @@ export const TransportOptions = ({
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <Label className="text-base font-semibold">How often do you travel?</Label>
+          <Label className="text-base font-semibold">How often do you commute?</Label>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
