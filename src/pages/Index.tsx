@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { TransportSection } from "@/components/Calculator/TransportSection";
-import { EnergySection } from "@/components/Calculator/EnergySection";
-import { WasteSection } from "@/components/Calculator/WasteSection";
 import { Results } from "@/components/Calculator/Results";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Car, Lightbulb, Trash2 } from "lucide-react";
+import { HeroSection } from "@/components/Calculator/HeroSection";
+import { CalculatorTabs } from "@/components/Calculator/CalculatorTabs";
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -80,47 +77,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-eco-light to-white">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/80 z-10" />
-          <img
-            src="/lovable-uploads/b035a820-5d42-40d3-8956-4d2870f7ccf9.png"
-            alt="Busy Nigerian street with yellow buses and crowds"
-            className="w-full h-[600px] object-cover"
-          />
-        </div>
-        <div className="relative z-20">
-          {/* Logo Container */}
-          <div className="w-full flex justify-center py-4">
-            <img
-              src="/lovable-uploads/3194298e-33db-422c-9c4e-79f8c60b15f6.png"
-              alt="Logo"
-              className="h-8 w-auto"
-            />
-          </div>
-          {/* Hero Content */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
-              Nigeria's Most Accurate Carbon Footprint Calculator
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-12 animate-fade-in drop-shadow-md">
-              Understanding your carbon footprint is the first step towards a sustainable future. Our intuitive calculator provides precise measurements tailored to Nigerian lifestyle and infrastructure.
-            </p>
-            <Button 
-              className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
-              onClick={() => {
-                const calculatorSection = document.getElementById('calculator');
-                calculatorSection?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              Calculate Your Footprint
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Calculator Section */}
+      <HeroSection />
+      
       <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl font-bold text-title mb-4">
@@ -132,40 +90,7 @@ const Index = () => {
         </div>
 
         <div className="space-y-6 animate-fade-in">
-          <Tabs defaultValue="transport" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger 
-                value="transport" 
-                className="flex items-center gap-2 data-[state=active]:bg-eco-primary data-[state=active]:text-white"
-              >
-                <Car className="h-4 w-4" />
-                Transport
-              </TabsTrigger>
-              <TabsTrigger 
-                value="energy" 
-                className="flex items-center gap-2 data-[state=active]:bg-eco-primary data-[state=active]:text-white"
-              >
-                <Lightbulb className="h-4 w-4" />
-                Energy
-              </TabsTrigger>
-              <TabsTrigger 
-                value="waste" 
-                className="flex items-center gap-2 data-[state=active]:bg-eco-primary data-[state=active]:text-white"
-              >
-                <Trash2 className="h-4 w-4" />
-                Waste
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="transport">
-              <TransportSection values={formData} onChange={handleChange} />
-            </TabsContent>
-            <TabsContent value="energy">
-              <EnergySection values={formData} onChange={handleChange} />
-            </TabsContent>
-            <TabsContent value="waste">
-              <WasteSection values={formData} onChange={handleChange} />
-            </TabsContent>
-          </Tabs>
+          <CalculatorTabs values={formData} onChange={handleChange} />
         </div>
 
         <div className="animate-fade-in">
