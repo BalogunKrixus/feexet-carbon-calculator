@@ -47,7 +47,7 @@ export const TransportSection = ({
 
   return (
     <Card className="p-6 space-y-4">
-      <h3 className="text-xl font-semibold text-eco-primary">Transportation</h3>
+      <h3 className="text-xl font-semibold text-title">Transportation</h3>
       <TransportOptions
         selectedMode={transportMode}
         selectedFrequency={frequency}
