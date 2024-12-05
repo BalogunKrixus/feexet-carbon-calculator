@@ -2,8 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
-// Updated colors to make Transport and Energy more distinct
-const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"]; // Changed the second color to a purple shade
+const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"];
 
 export const Results = ({
   totalEmissions,
@@ -12,7 +11,7 @@ export const Results = ({
   totalEmissions: number;
   breakdown: { category: string; value: number }[];
 }) => {
-  const nigerianAverage = 0.5; // Tons CO2 per year per capita
+  const nigerianAverage = 0.5;
   const percentage = (totalEmissions / nigerianAverage) * 100;
 
   const getProgressColor = (index: number) => {
