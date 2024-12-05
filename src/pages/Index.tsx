@@ -77,7 +77,7 @@ const Index = () => {
           <img
             src="/lovable-uploads/3194298e-33db-422c-9c4e-79f8c60b15f6.png"
             alt="Logo"
-            className="w-24 h-24 mx-auto mb-8"
+            className="h-24 w-auto mx-auto mb-8"
           />
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
             Nigeria's Most Accurate Carbon Footprint Calculator
@@ -96,7 +96,6 @@ const Index = () => {
           </Button>
         </div>
       </div>
-
       {/* Calculator Section */}
       <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div className="text-center mb-12 animate-fade-in">
