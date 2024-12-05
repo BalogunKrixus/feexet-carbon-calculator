@@ -14,7 +14,7 @@ const FREQUENCY_MULTIPLIERS = {
 
 const BASE_DISTANCES = {
   car: 500,
-  bus: 300,
+  public: 300,
   bike: 100,
 };
 
@@ -45,20 +45,34 @@ export const TransportSection = ({
       return;
     }
 
-    const baseDistance = BASE_DISTANCES[transportMode as keyof typeof BASE_DISTANCES];
+    const baseDistance = BASE_DISTANCES[transportMode as keyof typeof BASE_DISTANCES] || 0;
     const multiplier = FREQUENCY_MULTIPLIERS[frequency as keyof typeof FREQUENCY_MULTIPLIERS];
     const estimatedDistance = baseDistance * multiplier;
 
-    if (transportMode === "car") {
-      onChange("carKm", estimatedDistance.toString());
-      onChange("busKm", "0");
-    } else if (transportMode === "bus") {
-      onChange("busKm", estimatedDistance.toString());
-      onChange("carKm", "0");
-    } else {
-      onChange("carKm", "0");
-      onChange("busKm", "0");
+    switch (transportMode) {
+      case "car":
+        onChange("carKm", estimatedDistance.toString());
+        onChange("busKm", "0");
+        break;
+      case "public":
+        onChange("busKm", estimatedDistance.toString());
+        onChange("carKm", "0");
+        break;
+      case "bike":
+        // For bike/walking, set both to 0 as they don't produce emissions
+        onChange("carKm", "0");
+        onChange("busKm", "0");
+        break;
+      default:
+        onChange("carKm", "0");
+        onChange("busKm", "0");
     }
+
+    console.log('Transport mode updated:', {
+      mode: transportMode,
+      frequency,
+      estimatedDistance,
+    });
   }, [transportMode, frequency, onChange]);
 
   return (
