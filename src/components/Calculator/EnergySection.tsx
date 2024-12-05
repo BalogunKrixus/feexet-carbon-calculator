@@ -20,11 +20,20 @@ const GENERATOR_TYPES = [
   { value: "large", label: "Large (> 5 KVA)", consumption: 2.0 },
 ];
 
+interface EnergyValues {
+  electricity: string;
+  generator: string;
+  electricityHours: string;
+  electricityDays: string;
+  generatorType: string;
+  generatorHours: string;
+}
+
 export const EnergySection = ({
   values,
   onChange,
 }: {
-  values: { electricity: string; generator: string };
+  values: EnergyValues;
   onChange: (field: string, value: string) => void;
 }) => {
   const calculateEstimatedKwh = (hours: string, daysPerWeek: number) => {
