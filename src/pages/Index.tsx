@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Results } from "@/components/Calculator/Results";
 import { HeroSection } from "@/components/Calculator/HeroSection";
 import { CalculatorTabs } from "@/components/Calculator/CalculatorTabs";
-import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -167,23 +166,9 @@ const Index = () => {
           >
             Reset Calculator
           </Button>
-          <p className="text-sm text-gray-600 mb-8">
+          <p className="text-sm text-gray-600">
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
-
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-title mb-4">Want a More Detailed Analysis?</h3>
-            <p className="text-gray-600 mb-8">
-              Get a detailed analysis of your carbon footprint, personalized AI recommendations, and actionable insights. Join us to create a sustainable future!
-            </p>
-
-            <Button 
-              className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg font-semibold"
-            >
-              Sign Up Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
         </div>
       </div>
     </div>
