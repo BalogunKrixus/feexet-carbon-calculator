@@ -25,8 +25,18 @@ export const EnergySection = ({
     <div className="space-y-6">
       <Tabs defaultValue="electricity" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="electricity">Electricity Usage</TabsTrigger>
-          <TabsTrigger value="generator">Generator Usage</TabsTrigger>
+          <TabsTrigger 
+            value="electricity" 
+            className="data-[state=active]:bg-eco-primary data-[state=active]:text-white"
+          >
+            Electricity Usage
+          </TabsTrigger>
+          <TabsTrigger 
+            value="generator"
+            className="data-[state=active]:bg-eco-primary data-[state=active]:text-white"
+          >
+            Generator Usage
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="electricity">
