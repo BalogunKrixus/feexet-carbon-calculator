@@ -2,7 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
-const COLORS = ["#2F855A", "#68D391", "#F6E05E"];
+// Updated colors to make Transport and Energy more distinct
+const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"]; // Changed the second color to a purple shade
 
 export const Results = ({
   totalEmissions,
