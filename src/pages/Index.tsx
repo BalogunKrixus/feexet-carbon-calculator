@@ -45,13 +45,42 @@ const Index = () => {
   const results = calculateEmissions();
 
   return (
-    <div className="min-h-screen bg-eco-light py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto space-y-8">
-        <div className="text-center animate-fade-in">
-          <h1 className="text-3xl font-bold text-eco-primary sm:text-4xl">
-            Nigeria Carbon Footprint Calculator
+    <div className="min-h-screen bg-gradient-to-b from-eco-light to-white">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b"
+            alt="Sustainability concept"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-eco-primary mb-6 animate-fade-in">
+            Nigeria's Most Accurate Carbon Footprint Calculator
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-12 animate-fade-in">
+            Understanding your carbon footprint is the first step towards a sustainable future. Our intuitive calculator provides precise measurements tailored to Nigerian lifestyle and infrastructure.
+          </p>
+          <Button 
+            className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
+            onClick={() => {
+              const calculatorSection = document.getElementById('calculator');
+              calculatorSection?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Calculate Your Footprint
+          </Button>
+        </div>
+      </div>
+
+      {/* Calculator Section */}
+      <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+        <div className="text-center mb-12 animate-fade-in">
+          <h2 className="text-3xl font-bold text-eco-primary mb-4">
+            Carbon Footprint Calculator
+          </h2>
+          <p className="text-gray-600">
             Measure your environmental impact and discover ways to reduce your carbon footprint
           </p>
         </div>
@@ -71,8 +100,7 @@ const Index = () => {
 
         <div className="text-center space-y-4 animate-fade-in">
           <Button
-            className="bg-eco-primary hover:bg-eco-primary/90"
-            size="lg"
+            className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
             onClick={() => setFormData({
               carKm: "",
               busKm: "",
