@@ -73,29 +73,36 @@ const Index = () => {
             className="w-full h-[600px] object-cover"
           />
         </div>
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 text-center">
-          <img
-            src="/lovable-uploads/3194298e-33db-422c-9c4e-79f8c60b15f6.png"
-            alt="Logo"
-            className="h-24 w-auto mx-auto mb-8"
-          />
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
-            Nigeria's Most Accurate Carbon Footprint Calculator
-          </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-12 animate-fade-in drop-shadow-md">
-            Understanding your carbon footprint is the first step towards a sustainable future. Our intuitive calculator provides precise measurements tailored to Nigerian lifestyle and infrastructure.
-          </p>
-          <Button 
-            className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
-            onClick={() => {
-              const calculatorSection = document.getElementById('calculator');
-              calculatorSection?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            Calculate Your Footprint
-          </Button>
+        <div className="relative z-20">
+          {/* Logo Container */}
+          <div className="w-full flex justify-center py-4">
+            <img
+              src="/lovable-uploads/3194298e-33db-422c-9c4e-79f8c60b15f6.png"
+              alt="Logo"
+              className="h-16 w-auto"
+            />
+          </div>
+          {/* Hero Content */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
+              Nigeria's Most Accurate Carbon Footprint Calculator
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-12 animate-fade-in drop-shadow-md">
+              Understanding your carbon footprint is the first step towards a sustainable future. Our intuitive calculator provides precise measurements tailored to Nigerian lifestyle and infrastructure.
+            </p>
+            <Button 
+              className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
+              onClick={() => {
+                const calculatorSection = document.getElementById('calculator');
+                calculatorSection?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Calculate Your Footprint
+            </Button>
+          </div>
         </div>
       </div>
+
       {/* Calculator Section */}
       <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div className="text-center mb-12 animate-fade-in">
