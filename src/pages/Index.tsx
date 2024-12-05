@@ -136,6 +136,10 @@ const Index = () => {
           </p>
         </div>
 
+        <div className="space-y-6 animate-fade-in">
+          <CalculatorTabs values={formData} onChange={handleChange} />
+        </div>
+
         <div className="animate-fade-in">
           <Results
             totalEmissions={results.total}
@@ -165,10 +169,6 @@ const Index = () => {
           <p className="text-sm text-gray-600">
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
-        </div>
-
-        <div className="space-y-6 animate-fade-in">
-          <CalculatorTabs values={formData} onChange={handleChange} />
         </div>
       </div>
     </div>
