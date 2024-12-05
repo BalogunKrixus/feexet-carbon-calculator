@@ -26,7 +26,11 @@ export const Results = ({
         <p className="text-sm text-gray-600">
           Compared to Nigerian average: {nigerianAverage} tons CO₂e/year
         </p>
-        <Progress value={percentage} className="h-2" />
+        <Progress 
+          value={percentage} 
+          className="h-2" 
+          indicatorClassName="bg-[#2F855A]"
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -73,6 +77,7 @@ export const Results = ({
               <Progress
                 value={(item.value / totalEmissions) * 100}
                 className="h-1.5"
+                indicatorClassName={`bg-[${COLORS[index % COLORS.length]}]`}
               />
             </div>
           ))}
