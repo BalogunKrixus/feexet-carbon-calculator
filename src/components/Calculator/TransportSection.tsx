@@ -1,6 +1,19 @@
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { TransportOptions } from "./TransportOptions";
+
+const FREQUENCY_MULTIPLIERS = {
+  daily: 30,
+  weekly: 4,
+  monthly: 1,
+  rarely: 0.5,
+};
+
+const BASE_DISTANCES = {
+  car: 500,
+  bus: 300,
+  bike: 100,
+};
 
 export const TransportSection = ({
   values,
@@ -9,31 +22,35 @@ export const TransportSection = ({
   values: { carKm: string; busKm: string };
   onChange: (field: string, value: string) => void;
 }) => {
+  const [transportMode, setTransportMode] = useState("car");
+  const [frequency, setFrequency] = useState("monthly");
+
+  useEffect(() => {
+    const baseDistance = BASE_DISTANCES[transportMode as keyof typeof BASE_DISTANCES];
+    const multiplier = FREQUENCY_MULTIPLIERS[frequency as keyof typeof FREQUENCY_MULTIPLIERS];
+    const estimatedDistance = baseDistance * multiplier;
+
+    if (transportMode === "car") {
+      onChange("carKm", estimatedDistance.toString());
+      onChange("busKm", "0");
+    } else if (transportMode === "bus") {
+      onChange("busKm", estimatedDistance.toString());
+      onChange("carKm", "0");
+    } else {
+      onChange("carKm", "0");
+      onChange("busKm", "0");
+    }
+  }, [transportMode, frequency, onChange]);
+
   return (
     <Card className="p-6 space-y-4">
       <h3 className="text-xl font-semibold text-eco-primary">Transportation</h3>
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="carKm">Monthly car travel (kilometers)</Label>
-          <Input
-            id="carKm"
-            type="number"
-            placeholder="0"
-            value={values.carKm}
-            onChange={(e) => onChange("carKm", e.target.value)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="busKm">Monthly bus travel (kilometers)</Label>
-          <Input
-            id="busKm"
-            type="number"
-            placeholder="0"
-            value={values.busKm}
-            onChange={(e) => onChange("busKm", e.target.value)}
-          />
-        </div>
-      </div>
+      <TransportOptions
+        selectedMode={transportMode}
+        selectedFrequency={frequency}
+        onModeChange={setTransportMode}
+        onFrequencyChange={setFrequency}
+      />
     </Card>
   );
 };
