@@ -170,6 +170,13 @@ const Index = () => {
             * This calculator provides estimates based on average emission factors in Nigeria
           </p>
         </div>
+
+        <div className="animate-fade-in">
+          <Results
+            totalEmissions={results.total}
+            breakdown={results.breakdown}
+          />
+        </div>
       </div>
     </div>
   );
