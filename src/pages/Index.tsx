@@ -16,12 +16,58 @@ const DEFAULT_FORM_STATE = {
   generatorType: "",
   generatorHours: "4",
   useExactElectricity: false,
+  carYear: "",
+  flightFrequency: "none",
+  flightType: "domestic",
 };
 
-const calculateTransportEmissions = (carKm: string, busKm: string) => {
-  const carEmissions = Number(carKm) * 0.14;
+const getCarEmissionFactor = (carYear: string) => {
+  // Newer cars have lower emission factors
+  switch (carYear) {
+    case "new": // 2020 or newer
+      return 0.12;
+    case "recent": // 2015-2019
+      return 0.14;
+    case "older": // 2010-2014
+      return 0.16;
+    case "old": // Before 2010
+      return 0.18;
+    default:
+      return 0.14; // Default factor if no year selected
+  }
+};
+
+const getFlightEmissions = (frequency: string, type: string) => {
+  const flightFactors = {
+    domestic: 0.2,
+    international: 0.4,
+    both: 0.6
+  };
+
+  const frequencyMultipliers = {
+    none: 0,
+    rare: 1,      // 1-2 flights per year
+    occasional: 4, // 3-5 flights per year
+    frequent: 8    // 6+ flights per year
+  };
+
+  const flightFactor = flightFactors[type as keyof typeof flightFactors] || 0;
+  const frequencyMultiplier = frequencyMultipliers[frequency as keyof typeof frequencyMultipliers] || 0;
+
+  return flightFactor * frequencyMultiplier;
+};
+
+const calculateTransportEmissions = (carKm: string, busKm: string, carYear: string, flightFrequency: string, flightType: string) => {
+  const carEmissionFactor = getCarEmissionFactor(carYear);
+  const carEmissions = Number(carKm) * carEmissionFactor;
   const busEmissions = Number(busKm) * 0.082;
-  return { carEmissions, busEmissions };
+  const flightEmissions = getFlightEmissions(flightFrequency, flightType);
+
+  return { 
+    carEmissions, 
+    busEmissions,
+    flightEmissions 
+  };
 };
 
 const calculateEnergyEmissions = (formData: typeof DEFAULT_FORM_STATE) => {
@@ -69,11 +115,18 @@ const Index = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const calculateEmissions = () => {
-    const { carEmissions, busEmissions } = calculateTransportEmissions(formData.carKm, formData.busKm);
+    const { carEmissions, busEmissions, flightEmissions } = calculateTransportEmissions(
+      formData.carKm, 
+      formData.busKm, 
+      formData.carYear,
+      formData.flightFrequency,
+      formData.flightType
+    );
+    
     const { electricityEmissions, generatorEmissions } = calculateEnergyEmissions(formData);
     const { wasteEmissions, recyclingOffset } = calculateWasteEmissions(formData.waste, formData.recycling);
 
-    const transport = (carEmissions + busEmissions) * 12 / 1000;
+    const transport = (carEmissions + busEmissions + flightEmissions) * 12 / 1000;
     const energy = (electricityEmissions + generatorEmissions) * 12 / 1000;
     const waste = (wasteEmissions - recyclingOffset) / 1000;
 
@@ -81,7 +134,13 @@ const Index = () => {
       transport,
       energy,
       waste,
-      total: transport + energy + waste
+      total: transport + energy + waste,
+      carYear: formData.carYear,
+      flightData: {
+        frequency: formData.flightFrequency,
+        type: formData.flightType,
+        emissions: flightEmissions
+      }
     });
 
     return {
@@ -101,7 +160,6 @@ const Index = () => {
   const handleReset = () => {
     setFormData(DEFAULT_FORM_STATE);
     setShowSuggestions(false);
-    // Force a re-render of all components by triggering state changes
     const event = new Event('reset');
     window.dispatchEvent(event);
   };
