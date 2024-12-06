@@ -12,21 +12,21 @@ const TRANSPORT_MODES = [
   { 
     value: "car", 
     label: "Car (Fuel)", 
-    icon: Car,
+    Icon: Car,
     baseDistance: 500,
     tooltip: "Average car travels 500 km/month in urban Nigeria" 
   },
   { 
     value: "public", 
     label: "Public Transport", 
-    icon: Bus,
+    Icon: Bus,
     baseDistance: 300,
     tooltip: "Public transportation options in Nigeria" 
   },
   { 
     value: "bike", 
     label: "Bicycle/Walking", 
-    icon: Bike,
+    Icon: Bike,
     baseDistance: 100,
     tooltip: "Eco-friendly option with zero emissions" 
   },
@@ -81,7 +81,7 @@ export const TransportModeSection = ({
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         {TRANSPORT_MODES.map((mode) => {
-          const Icon = mode.icon;
+          const IconComponent = mode.Icon;
           return (
             <ToggleGroupItem
               key={mode.value}
@@ -89,7 +89,7 @@ export const TransportModeSection = ({
               aria-label={mode.label}
               className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
             >
-              <Icon className="h-8 w-8" />
+              <IconComponent className="h-8 w-8" />
               <span className="text-sm font-medium">{mode.label}</span>
             </ToggleGroupItem>
           );
