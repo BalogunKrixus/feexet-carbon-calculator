@@ -89,18 +89,24 @@ export const Results = ({
         <p className="text-2xl font-bold text-title">
           {totalEmissions.toFixed(2)} tons CO₂e/year
         </p>
-        <p className="text-sm text-gray-600">
-          Compared to Nigerian average: {nigerianAverage} tons CO₂e/year
-        </p>
+        <div className="flex items-center justify-between text-sm text-gray-600">
+          <span>Nigerian average: {nigerianAverage} tons CO₂e/year</span>
+          <span className={totalEmissions > nigerianAverage ? "text-red-500 font-medium" : "text-green-500 font-medium"}>
+            {totalEmissions > nigerianAverage 
+              ? `${((totalEmissions / nigerianAverage) * 100).toFixed(0)}% above average`
+              : `${((1 - totalEmissions / nigerianAverage) * 100).toFixed(0)}% below average`
+            }
+          </span>
+        </div>
         <Progress 
           value={percentage} 
           className="h-2" 
           indicatorClassName={percentage > 100 ? "bg-red-500" : "bg-eco-primary"}
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
-          <span>0%</span>
-          <span>50%</span>
-          <span>100%+</span>
+        <div className="flex justify-between text-xs text-gray-500">
+          <span>Better than average</span>
+          <span>Nigerian average</span>
+          <span>Above average</span>
         </div>
       </div>
 
