@@ -26,7 +26,7 @@ export const HeroSection = () => {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
-            Track Your Carbon Footprint, Take Action Today
+            Understand Your Carbon Footprint, Start Your Journey to Sustainability
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-12 animate-fade-in drop-shadow-md">
             Discover how your daily choices impact the planet. Our easy-to-use calculator provides personalized insights and actionable tips tailored to your lifestyle, empowering you to make sustainable changes that matter.
