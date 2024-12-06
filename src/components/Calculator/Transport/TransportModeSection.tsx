@@ -91,7 +91,7 @@ export const TransportModeSection = ({
             key={value}
             value={value}
             aria-label={label}
-            className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
+            className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-muted bg-transparent p-8 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
           >
             <Icon className="h-8 w-8" />
             <span className="text-sm font-medium">{label}</span>
