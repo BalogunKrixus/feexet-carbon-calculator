@@ -42,11 +42,15 @@ export const TransportModeSection = ({
   selectedMode,
   onModeChange,
 }: TransportModeSectionProps) => {
+  console.log("Current selected mode:", selectedMode); // Debug log
+
   const handleModeChange = (value: string) => {
-    // If clicking the already selected mode, deselect it by setting to empty string
+    console.log("Handling mode change:", { value, currentSelected: selectedMode }); // Debug log
     if (value === selectedMode) {
+      console.log("Deselecting mode"); // Debug log
       onModeChange("");
     } else {
+      console.log("Selecting new mode:", value); // Debug log
       onModeChange(value);
     }
   };
@@ -82,28 +86,23 @@ export const TransportModeSection = ({
         </TooltipProvider>
       </div>
       
-      <RadioGroup
-        value={selectedMode}
-        onValueChange={handleModeChange}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {TRANSPORT_MODES.map(({ value, label, Icon, tooltip }) => (
           <div key={value}>
-            <RadioGroupItem
-              value={value}
-              id={value}
-              className="peer sr-only"
-            />
-            <Label
-              htmlFor={value}
-              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-eco-primary peer-data-[state=checked]:bg-eco-primary peer-data-[state=checked]:text-white [&:has([data-state=checked])]:border-eco-primary [&:has([data-state=checked])]:bg-eco-primary [&:has([data-state=checked])]:text-white cursor-pointer"
+            <button
+              onClick={() => handleModeChange(value)}
+              className={`w-full flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground transition-colors ${
+                selectedMode === value
+                  ? "border-eco-primary bg-eco-primary text-white"
+                  : ""
+              }`}
             >
               <Icon className="mb-2 h-6 w-6" />
               <span className="text-sm font-medium">{label}</span>
-            </Label>
+            </button>
           </div>
         ))}
-      </RadioGroup>
+      </div>
     </div>
   );
 };
