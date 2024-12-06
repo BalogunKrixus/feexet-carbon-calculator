@@ -42,6 +42,15 @@ export const TransportModeSection = ({
   selectedMode,
   onModeChange,
 }: TransportModeSectionProps) => {
+  const handleModeChange = (value: string) => {
+    // If clicking the same mode, deselect it
+    if (value === selectedMode) {
+      onModeChange("");
+    } else {
+      onModeChange(value);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -69,7 +78,7 @@ export const TransportModeSection = ({
       
       <RadioGroup
         value={selectedMode}
-        onValueChange={onModeChange}
+        onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         {TRANSPORT_MODES.map((mode) => {
