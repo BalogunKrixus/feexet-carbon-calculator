@@ -1,6 +1,5 @@
 import { Car, Bus, Bike } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Tooltip,
   TooltipContent,
@@ -91,14 +90,16 @@ export const TransportModeSection = ({
           <div key={value}>
             <button
               onClick={() => handleModeChange(value)}
-              className={`w-full flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground transition-colors ${
+              className={`w-full flex flex-col items-center justify-center rounded-lg border-2 p-6 transition-all duration-200 ${
                 selectedMode === value
-                  ? "border-eco-primary bg-eco-primary text-white"
-                  : ""
+                  ? "border-eco-primary bg-eco-primary text-white hover:bg-eco-primary/90"
+                  : "border-muted bg-transparent hover:bg-accent hover:text-accent-foreground"
               }`}
             >
-              <Icon className="mb-2 h-6 w-6" />
-              <span className="text-sm font-medium">{label}</span>
+              <Icon className={`mb-2 h-6 w-6 ${selectedMode === value ? "text-white" : ""}`} />
+              <span className={`text-sm font-medium ${selectedMode === value ? "text-white" : ""}`}>
+                {label}
+              </span>
             </button>
           </div>
         ))}
