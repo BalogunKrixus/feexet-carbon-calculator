@@ -1,4 +1,4 @@
-import { Car, Bus, Bike } from "lucide-react";
+import { Car, Bus, Bike, Info } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -7,7 +7,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
 
 const TRANSPORT_MODES = [
   { 
@@ -86,7 +85,7 @@ export const TransportModeSection = ({
         onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        {TRANSPORT_MODES.map(({ value, label, Icon, tooltip }) => (
+        {TRANSPORT_MODES.map(({ value, label, Icon }) => (
           <div key={value}>
             <RadioGroupItem
               value={value}
@@ -95,7 +94,7 @@ export const TransportModeSection = ({
             />
             <Label
               htmlFor={value}
-              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-eco-primary peer-data-[state=checked]:bg-eco-primary peer-data-[state=checked]:text-white [&:has([data-state=checked])]:border-eco-primary [&:has([data-state=checked])]:bg-eco-primary [&:has([data-state=checked])]:text-white cursor-pointer"
+              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground cursor-pointer transition-colors duration-200"
             >
               <Icon className="mb-2 h-6 w-6" />
               <span className="text-sm font-medium">{label}</span>
