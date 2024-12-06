@@ -12,21 +12,21 @@ const TRANSPORT_MODES = [
   { 
     value: "car", 
     label: "Car (Fuel)", 
-    icon: Car, 
+    icon: Car,
     baseDistance: 500,
     tooltip: "Average car travels 500 km/month in urban Nigeria" 
   },
   { 
     value: "public", 
     label: "Public Transport", 
-    icon: Bus, 
+    icon: Bus,
     baseDistance: 300,
     tooltip: "Public transportation options in Nigeria" 
   },
   { 
     value: "bike", 
     label: "Bicycle/Walking", 
-    icon: Bike, 
+    icon: Bike,
     baseDistance: 100,
     tooltip: "Eco-friendly option with zero emissions" 
   },
