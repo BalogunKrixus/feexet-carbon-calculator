@@ -52,7 +52,9 @@ export const TransportModeSection = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <Label className="text-base font-semibold">How do you commute most often?</Label>
+        <Label className="text-base font-semibold">
+          How do you commute most often?
+        </Label>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -68,7 +70,11 @@ export const TransportModeSection = ({
               sideOffset={5}
               className="touch-none"
             >
-              <p className="max-w-xs">Select your primary mode of transportation for daily activities. This helps us calculate your carbon footprint based on typical Nigerian commuting patterns.</p>
+              <p className="max-w-xs">
+                Select your primary mode of transportation for daily activities. 
+                This helps us calculate your carbon footprint based on typical 
+                Nigerian commuting patterns.
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -80,20 +86,17 @@ export const TransportModeSection = ({
         onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        {TRANSPORT_MODES.map((mode) => {
-          const IconComponent = mode.Icon;
-          return (
-            <ToggleGroupItem
-              key={mode.value}
-              value={mode.value}
-              aria-label={mode.label}
-              className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
-            >
-              <IconComponent className="h-8 w-8" />
-              <span className="text-sm font-medium">{mode.label}</span>
-            </ToggleGroupItem>
-          );
-        })}
+        {TRANSPORT_MODES.map(({ value, label, Icon }) => (
+          <ToggleGroupItem
+            key={value}
+            value={value}
+            aria-label={label}
+            className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
+          >
+            <Icon className="h-8 w-8" />
+            <span className="text-sm font-medium">{label}</span>
+          </ToggleGroupItem>
+        ))}
       </ToggleGroup>
     </div>
   );
