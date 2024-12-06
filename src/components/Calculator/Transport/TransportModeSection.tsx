@@ -8,30 +8,23 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-interface TransportMode {
-  value: string;
-  label: string;
-  Icon: typeof Car | typeof Bus | typeof Bike;
-  tooltip: string;
-}
-
-const TRANSPORT_MODES: TransportMode[] = [
+const TRANSPORT_MODES = [
   {
     value: "car",
     label: "Car (Fuel)",
-    Icon: Car,
+    icon: Car,
     tooltip: "Average car travels 500 km/month in urban Nigeria",
   },
   {
     value: "public",
     label: "Public Transport",
-    Icon: Bus,
+    icon: Bus,
     tooltip: "Public transportation options in Nigeria",
   },
   {
     value: "bike",
     label: "Bicycle/Walking",
-    Icon: Bike,
+    icon: Bike,
     tooltip: "Eco-friendly option with zero emissions",
   },
 ];
@@ -86,14 +79,14 @@ export const TransportModeSection = ({
         onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        {TRANSPORT_MODES.map(({ value, label, Icon, tooltip }) => (
+        {TRANSPORT_MODES.map(({ value, label, icon: IconComponent, tooltip }) => (
           <ToggleGroupItem
             key={value}
             value={value}
             aria-label={label}
             className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-muted bg-transparent p-8 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
           >
-            <Icon className="h-8 w-8" />
+            <IconComponent className="h-8 w-8" />
             <span className="text-sm font-medium">{label}</span>
           </ToggleGroupItem>
         ))}
