@@ -10,7 +10,7 @@ import {
 interface TransportMode {
   value: string;
   label: string;
-  Icon: React.ComponentType;
+  Icon: React.ComponentType<{ className?: string }>;  // Updated to accept className prop
   baseDistance: number;
   tooltip: string;
 }
