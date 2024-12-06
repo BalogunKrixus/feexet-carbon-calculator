@@ -71,8 +71,8 @@ export const Results = ({
   showSuggestions: boolean;
   setShowSuggestions: (show: boolean) => void;
 }) => {
-  const nigerianAverage = 0.5;
-  const percentage = (totalEmissions / nigerianAverage) * 100;
+  const nigerianAverage = 0.5; // tons CO2e/year
+  const percentage = Math.min((totalEmissions / nigerianAverage) * 100, 100); // Cap at 100%
   const suggestions = getSuggestions(breakdown);
 
   const getProgressColor = (index: number) => {
@@ -95,8 +95,13 @@ export const Results = ({
         <Progress 
           value={percentage} 
           className="h-2" 
-          indicatorClassName="bg-eco-primary"
+          indicatorClassName={percentage > 100 ? "bg-red-500" : "bg-eco-primary"}
         />
+        <div className="flex justify-between text-xs text-gray-500 mt-1">
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%+</span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
