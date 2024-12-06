@@ -1,13 +1,12 @@
-import { Car, Bus, Bike } from "lucide-react";
+import { Car, Bus, Bike, Info } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
 
 const TRANSPORT_MODES = [
   { 
@@ -76,7 +75,8 @@ export const TransportModeSection = ({
         </TooltipProvider>
       </div>
       
-      <RadioGroup
+      <ToggleGroup
+        type="single"
         value={selectedMode}
         onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
@@ -84,23 +84,17 @@ export const TransportModeSection = ({
         {TRANSPORT_MODES.map((mode) => {
           const Icon = mode.icon;
           return (
-            <div key={mode.value}>
-              <RadioGroupItem
-                value={mode.value}
-                id={mode.value}
-                className="peer sr-only"
-              />
-              <Label
-                htmlFor={mode.value}
-                className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-eco-primary peer-data-[state=checked]:bg-eco-primary peer-data-[state=checked]:text-white [&:has([data-state=checked])]:border-eco-primary [&:has([data-state=checked])]:bg-eco-primary [&:has([data-state=checked])]:text-white cursor-pointer"
-              >
-                <Icon className="mb-2 h-6 w-6" />
-                <span className="text-sm font-medium">{mode.label}</span>
-              </Label>
-            </div>
+            <ToggleGroupItem
+              key={mode.value}
+              value={mode.value}
+              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
+            >
+              <Icon className="mb-2 h-6 w-6" />
+              <span className="text-sm font-medium">{mode.label}</span>
+            </ToggleGroupItem>
           );
         })}
-      </RadioGroup>
+      </ToggleGroup>
     </div>
   );
 };
