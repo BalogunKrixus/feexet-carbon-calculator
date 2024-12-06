@@ -86,9 +86,10 @@ export const TransportModeSection = ({
             <ToggleGroupItem
               key={mode.value}
               value={mode.value}
-              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
+              aria-label={mode.label}
+              className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground data-[state=on]:border-eco-primary data-[state=on]:bg-eco-primary data-[state=on]:text-white"
             >
-              <Icon className="mb-2 h-6 w-6" />
+              <Icon className="h-8 w-8" />
               <span className="text-sm font-medium">{mode.label}</span>
             </ToggleGroupItem>
           );
