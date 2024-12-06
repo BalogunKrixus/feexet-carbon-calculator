@@ -43,6 +43,7 @@ export const TransportModeSection = ({
   onModeChange,
 }: TransportModeSectionProps) => {
   const handleModeChange = (value: string) => {
+    // If clicking the already selected mode, deselect it by setting to empty string
     if (value === selectedMode) {
       onModeChange("");
     } else {
