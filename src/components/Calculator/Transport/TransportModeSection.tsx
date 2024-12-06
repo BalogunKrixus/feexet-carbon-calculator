@@ -8,27 +8,31 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const TRANSPORT_MODES = [
-  { 
-    value: "car", 
-    label: "Car (Fuel)", 
+interface TransportMode {
+  value: string;
+  label: string;
+  Icon: typeof Car | typeof Bus | typeof Bike;
+  tooltip: string;
+}
+
+const TRANSPORT_MODES: TransportMode[] = [
+  {
+    value: "car",
+    label: "Car (Fuel)",
     Icon: Car,
-    baseDistance: 500,
-    tooltip: "Average car travels 500 km/month in urban Nigeria" 
+    tooltip: "Average car travels 500 km/month in urban Nigeria",
   },
-  { 
-    value: "public", 
-    label: "Public Transport", 
+  {
+    value: "public",
+    label: "Public Transport",
     Icon: Bus,
-    baseDistance: 300,
-    tooltip: "Public transportation options in Nigeria" 
+    tooltip: "Public transportation options in Nigeria",
   },
-  { 
-    value: "bike", 
-    label: "Bicycle/Walking", 
+  {
+    value: "bike",
+    label: "Bicycle/Walking",
     Icon: Bike,
-    baseDistance: 100,
-    tooltip: "Eco-friendly option with zero emissions" 
+    tooltip: "Eco-friendly option with zero emissions",
   },
 ];
 
@@ -58,35 +62,31 @@ export const TransportModeSection = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="cursor-help focus:outline-none focus:ring-2 focus:ring-eco-primary focus:ring-offset-2 rounded-full"
               >
                 <Info className="h-4 w-4 text-muted-foreground" />
               </button>
             </TooltipTrigger>
-            <TooltipContent 
-              side="top"
-              sideOffset={5}
-              className="touch-none"
-            >
+            <TooltipContent side="top" sideOffset={5} className="touch-none">
               <p className="max-w-xs">
-                Select your primary mode of transportation for daily activities. 
-                This helps us calculate your carbon footprint based on typical 
+                Select your primary mode of transportation for daily activities.
+                This helps us calculate your carbon footprint based on typical
                 Nigerian commuting patterns.
               </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
-      
+
       <ToggleGroup
         type="single"
         value={selectedMode}
         onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        {TRANSPORT_MODES.map(({ value, label, Icon }) => (
+        {TRANSPORT_MODES.map(({ value, label, Icon, tooltip }) => (
           <ToggleGroupItem
             key={value}
             value={value}
