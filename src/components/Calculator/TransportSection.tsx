@@ -25,16 +25,22 @@ export const TransportSection = ({
   } = useTransportState(onChange);
 
   useEffect(() => {
-    if (!transportMode) {
-      onChange("carKm", "0");
-      onChange("busKm", "0");
-      return;
-    }
+    // Reset all transport-related values when mode changes
+    onChange("carKm", "0");
+    onChange("busKm", "0");
+    
+    if (!transportMode) return;
 
     const { carKm, busKm } = calculateTransportDistances(transportMode, frequency);
     
-    onChange("carKm", carKm.toString());
-    onChange("busKm", busKm.toString());
+    // Only set the relevant transport mode value
+    if (transportMode === "car") {
+      onChange("carKm", carKm.toString());
+    } else if (transportMode === "public") {
+      onChange("busKm", busKm.toString());
+    }
+    // For "bike" mode, both values remain 0
+
     onChange("carYear", carYear);
     onChange("flightFrequency", flightFrequency);
     onChange("flightType", flightType);
@@ -43,8 +49,8 @@ export const TransportSection = ({
       mode: transportMode,
       frequency,
       carYear,
-      carKm,
-      busKm,
+      carKm: transportMode === "car" ? carKm : 0,
+      busKm: transportMode === "public" ? busKm : 0,
       flightData: {
         frequency: flightFrequency,
         type: flightType
