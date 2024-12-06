@@ -17,10 +17,10 @@ const Index = () => {
   const results = calculateEmissions();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-eco-light to-white">
+    <div className="min-h-screen bg-gradient-to-b from-eco-light to-white flex flex-col">
       <HeroSection />
       
-      <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <div id="calculator" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 flex-grow">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl font-bold text-title mb-4">
             Carbon Footprint Calculator
@@ -56,6 +56,18 @@ const Index = () => {
           </p>
         </div>
       </div>
+
+      <footer className="w-full py-4 text-center text-sm text-gray-600">
+        Built with <span className="text-red-500">❤️</span> by{" "}
+        <a
+          href="https://feexet.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-eco-primary hover:underline"
+        >
+          Feexet
+        </a>
+      </footer>
     </div>
   );
 };
