@@ -1,4 +1,4 @@
-import { Car, Bus, Bike } from "lucide-react";
+import { Car, Bus, Bike, Info } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
   Tooltip,
@@ -6,9 +6,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
 
-const TRANSPORT_MODES = [
+interface TransportMode {
+  value: string;
+  label: string;
+  Icon: React.ComponentType;
+  baseDistance: number;
+  tooltip: string;
+}
+
+const TRANSPORT_MODES: TransportMode[] = [
   { 
     value: "car", 
     label: "Car (Fuel)", 
@@ -41,15 +48,10 @@ export const TransportModeSection = ({
   selectedMode,
   onModeChange,
 }: TransportModeSectionProps) => {
-  console.log("Current selected mode:", selectedMode); // Debug log
-
   const handleModeChange = (value: string) => {
-    console.log("Handling mode change:", { value, currentSelected: selectedMode }); // Debug log
     if (value === selectedMode) {
-      console.log("Deselecting mode"); // Debug log
       onModeChange("");
     } else {
-      console.log("Selecting new mode:", value); // Debug log
       onModeChange(value);
     }
   };
@@ -86,7 +88,7 @@ export const TransportModeSection = ({
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {TRANSPORT_MODES.map(({ value, label, Icon, tooltip }) => (
+        {TRANSPORT_MODES.map(({ value, label, Icon }) => (
           <div key={value}>
             <button
               onClick={() => handleModeChange(value)}
