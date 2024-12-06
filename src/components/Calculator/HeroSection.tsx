@@ -26,10 +26,10 @@ export const HeroSection = () => {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in drop-shadow-lg">
-            Nigeria's Most Accurate Carbon Footprint Calculator
+            Track Your Carbon Footprint, Take Action Today
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-12 animate-fade-in drop-shadow-md">
-            Understanding your carbon footprint is the first step towards a sustainable future. Our intuitive calculator provides precise measurements tailored to Nigerian lifestyle and infrastructure.
+            Discover how your daily choices impact the planet. Our easy-to-use calculator provides personalized insights and actionable tips tailored to your lifestyle, empowering you to make sustainable changes that matter.
           </p>
           <Button 
             className="bg-eco-primary hover:bg-eco-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
