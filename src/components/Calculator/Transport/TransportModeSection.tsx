@@ -13,21 +13,21 @@ const TRANSPORT_MODES = [
   { 
     value: "car", 
     label: "Car (Fuel)", 
-    icon: Car, 
+    Icon: Car,
     baseDistance: 500,
     tooltip: "Average car travels 500 km/month in urban Nigeria" 
   },
   { 
     value: "public", 
     label: "Public Transport", 
-    icon: Bus, 
+    Icon: Bus,
     baseDistance: 300,
     tooltip: "Public transportation options in Nigeria" 
   },
   { 
     value: "bike", 
     label: "Bicycle/Walking", 
-    icon: Bike, 
+    Icon: Bike,
     baseDistance: 100,
     tooltip: "Eco-friendly option with zero emissions" 
   },
@@ -43,7 +43,6 @@ export const TransportModeSection = ({
   onModeChange,
 }: TransportModeSectionProps) => {
   const handleModeChange = (value: string) => {
-    // If clicking the same mode, deselect it
     if (value === selectedMode) {
       onModeChange("");
     } else {
@@ -54,7 +53,9 @@ export const TransportModeSection = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <Label className="text-base font-semibold">How do you commute most often?</Label>
+        <Label className="text-base font-semibold">
+          How do you commute most often?
+        </Label>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -70,7 +71,11 @@ export const TransportModeSection = ({
               sideOffset={5}
               className="touch-none"
             >
-              <p className="max-w-xs">Select your primary mode of transportation for daily activities. This helps us calculate your carbon footprint based on typical Nigerian commuting patterns.</p>
+              <p className="max-w-xs">
+                Select your primary mode of transportation for daily activities. 
+                This helps us calculate your carbon footprint based on typical 
+                Nigerian commuting patterns.
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -81,25 +86,22 @@ export const TransportModeSection = ({
         onValueChange={handleModeChange}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        {TRANSPORT_MODES.map((mode) => {
-          const Icon = mode.icon;
-          return (
-            <div key={mode.value}>
-              <RadioGroupItem
-                value={mode.value}
-                id={mode.value}
-                className="peer sr-only"
-              />
-              <Label
-                htmlFor={mode.value}
-                className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-eco-primary peer-data-[state=checked]:bg-eco-primary peer-data-[state=checked]:text-white [&:has([data-state=checked])]:border-eco-primary [&:has([data-state=checked])]:bg-eco-primary [&:has([data-state=checked])]:text-white cursor-pointer"
-              >
-                <Icon className="mb-2 h-6 w-6" />
-                <span className="text-sm font-medium">{mode.label}</span>
-              </Label>
-            </div>
-          );
-        })}
+        {TRANSPORT_MODES.map(({ value, label, Icon, tooltip }) => (
+          <div key={value}>
+            <RadioGroupItem
+              value={value}
+              id={value}
+              className="peer sr-only"
+            />
+            <Label
+              htmlFor={value}
+              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-transparent p-6 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-eco-primary peer-data-[state=checked]:bg-eco-primary peer-data-[state=checked]:text-white [&:has([data-state=checked])]:border-eco-primary [&:has([data-state=checked])]:bg-eco-primary [&:has([data-state=checked])]:text-white cursor-pointer"
+            >
+              <Icon className="mb-2 h-6 w-6" />
+              <span className="text-sm font-medium">{label}</span>
+            </Label>
+          </div>
+        ))}
       </RadioGroup>
     </div>
   );
