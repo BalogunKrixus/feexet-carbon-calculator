@@ -14,8 +14,8 @@ export const QuestionCard = ({ question, onAnswer, onBack, showBack }: QuestionC
   return (
     <Card className="p-6 bg-white shadow-lg rounded-lg">
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground italic">{question.hint}</p>
         <h2 className="text-xl font-semibold">{question.text}</h2>
+        <p className="text-sm text-muted-foreground italic">{question.hint}</p>
         <div className="space-y-4">
           {question.options.map((option) => (
             <Button
