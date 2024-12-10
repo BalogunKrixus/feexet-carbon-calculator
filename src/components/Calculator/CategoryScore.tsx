@@ -22,27 +22,31 @@ export const CategoryScoreCard = ({ category, score }: CategoryScoreProps) => {
   };
 
   return (
-    <Card className="mb-6 p-6 bg-white shadow-lg rounded-lg animate-fade-in">
-      <div className="flex items-center gap-3 mb-4">
-        <CheckCircle2 className="w-6 h-6 text-eco-primary" />
-        <h2 className="text-xl font-semibold text-title">
-          {category} Category Complete!
-        </h2>
+    <Card className="p-8 bg-white shadow-lg rounded-xl animate-fade-in">
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <CheckCircle2 className="w-6 h-6 text-eco-primary flex-shrink-0" />
+          <h2 className="text-xl font-semibold text-title">
+            {category} Category Complete!
+          </h2>
+        </div>
+        <div className="space-y-4">
+          <p className="text-gray-600">
+            Your impact score for this category: {score.toFixed(1)}%
+          </p>
+          <Progress 
+            value={score} 
+            className="h-2"
+            indicatorClassName={cn(
+              getScoreColor(score),
+              "transition-all duration-500"
+            )}
+          />
+          <p className="text-sm text-gray-500">
+            {getMessage(score)}
+          </p>
+        </div>
       </div>
-      <p className="text-gray-600 mb-4">
-        Your impact score for this category: {score.toFixed(1)}%
-      </p>
-      <Progress 
-        value={score} 
-        className="h-2 mb-2"
-        indicatorClassName={cn(
-          getScoreColor(score),
-          "transition-all duration-500"
-        )}
-      />
-      <p className="text-sm text-gray-500 mt-2">
-        {getMessage(score)}
-      </p>
     </Card>
   );
 };

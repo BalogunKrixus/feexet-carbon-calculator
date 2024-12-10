@@ -76,67 +76,77 @@ const Index = () => {
     : null;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-title text-center mb-8">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto space-y-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-title mb-4">
             Carbon Footprint Calculator
           </h1>
-
-          <Tabs defaultValue={categories[0]} className="w-full mb-8">
-            <TabsList className="grid w-full grid-cols-4">
-              {categories.map((category) => {
-                const Icon = categoryIcons[category as keyof typeof categoryIcons];
-                const progress = getCategoryProgress(category);
-                return (
-                  <TabsTrigger
-                    key={category}
-                    value={category}
-                    className={cn(
-                      "flex flex-col items-center gap-2 p-4",
-                      "data-[state=active]:bg-eco-primary data-[state=active]:text-white"
-                    )}
-                    disabled={category !== getCurrentCategory()}
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span>{category}</span>
-                    <Progress 
-                      value={progress} 
-                      className="w-full h-1 bg-gray-200"
-                      indicatorClassName={cn(
-                        "bg-eco-secondary",
-                        "data-[state=active]:bg-white"
-                      )}
-                    />
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-
-            {categories.map((category) => (
-              <TabsContent key={category} value={category}>
-                {currentQuestion.category === category && (
-                  <>
-                    {lastCategoryScore && (
-                      <CategoryScoreCard 
-                        category={lastCategoryScore.category}
-                        score={lastCategoryScore.score}
-                      />
-                    )}
-                    <QuestionCard
-                      question={currentQuestion}
-                      onAnswer={handleAnswer}
-                      onBack={handleBack}
-                      showBack={currentQuestionIndex > 0}
-                    />
-                  </>
-                )}
-              </TabsContent>
-            ))}
-          </Tabs>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Calculate your environmental impact and learn how to reduce it
+          </p>
         </div>
+
+        <Tabs defaultValue={categories[0]} className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
+            {categories.map((category) => {
+              const Icon = categoryIcons[category as keyof typeof categoryIcons];
+              const progress = getCategoryProgress(category);
+              return (
+                <TabsTrigger
+                  key={category}
+                  value={category}
+                  className={cn(
+                    "flex flex-col items-center gap-3 p-4",
+                    "data-[state=active]:bg-eco-primary data-[state=active]:text-white",
+                    "transition-all duration-300"
+                  )}
+                  disabled={category !== getCurrentCategory()}
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <Icon className="h-6 w-6" />
+                    <span className="text-sm font-medium">{category}</span>
+                  </div>
+                  <Progress 
+                    value={progress} 
+                    className="w-full h-1.5 bg-gray-200"
+                    indicatorClassName={cn(
+                      "bg-eco-secondary",
+                      "data-[state=active]:bg-white"
+                    )}
+                  />
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+
+          {categories.map((category) => (
+            <TabsContent 
+              key={category} 
+              value={category}
+              className="mt-6 space-y-6"
+            >
+              {currentQuestion.category === category && (
+                <>
+                  {lastCategoryScore && (
+                    <CategoryScoreCard 
+                      category={lastCategoryScore.category}
+                      score={lastCategoryScore.score}
+                    />
+                  )}
+                  <QuestionCard
+                    question={currentQuestion}
+                    onAnswer={handleAnswer}
+                    onBack={handleBack}
+                    showBack={currentQuestionIndex > 0}
+                  />
+                </>
+              )}
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
-      <footer className="mt-8 text-center text-sm text-gray-500">
+      <footer className="mt-12 text-center text-sm text-gray-500">
         Built with ❤️ by <a href="https://feexet.com/" className="hover:underline">Feexet</a>
       </footer>
     </div>

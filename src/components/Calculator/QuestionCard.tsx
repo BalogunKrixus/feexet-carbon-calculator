@@ -13,11 +13,13 @@ interface QuestionCardProps {
 
 export const QuestionCard = ({ question, onAnswer, onBack, showBack }: QuestionCardProps) => {
   return (
-    <Card className="p-6 bg-white shadow-lg rounded-lg animate-fade-in">
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-title">{question.text}</h2>
-        <p className="text-sm text-muted-foreground italic">{question.hint}</p>
+    <Card className="p-8 bg-white shadow-lg rounded-xl animate-fade-in">
+      <div className="space-y-6">
         <div className="space-y-3">
+          <h2 className="text-2xl font-semibold text-title">{question.text}</h2>
+          <p className="text-sm text-muted-foreground">{question.hint}</p>
+        </div>
+        <div className="space-y-4">
           {question.options.map((option) => (
             <Button
               key={option.text}
