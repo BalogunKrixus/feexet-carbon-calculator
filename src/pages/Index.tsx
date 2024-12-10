@@ -1,18 +1,9 @@
-import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ChevronLeft } from "lucide-react";
-
-type Question = {
-  id: string;
-  category: string;
-  text: string;
-  options: {
-    text: string;
-    value: number;
-  }[];
-};
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { QuestionCard } from "@/components/Calculator/QuestionCard";
+import { CategoryProgress } from "@/components/Calculator/CategoryProgress";
+import { CategoryIcon } from "@/components/Calculator/CategoryIcon";
 
 const questions: Question[] = [
   // Food Category
@@ -181,9 +172,18 @@ const Index = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [categoryScores, setCategoryScores] = useState<Record<string, number>>({});
+  const [activeCategory, setActiveCategory] = useState("Food");
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+  const categories = ["Food", "Travel", "Home", "Stuff"];
+  
+  const getCategoryProgress = (category: string) => {
+    const categoryQuestions = questions.filter(q => q.category === category);
+    const answeredQuestions = categoryQuestions.filter(q => answers[q.id]);
+    return (answeredQuestions.length / categoryQuestions.length) * 100;
+  };
 
   const handleAnswer = (value: number) => {
     setAnswers((prev) => ({
@@ -191,7 +191,6 @@ const Index = () => {
       [currentQuestion.id]: value,
     }));
 
-    // Calculate category score when all questions in a category are answered
     const currentCategory = currentQuestion.category;
     const categoryQuestions = questions.filter(q => q.category === currentCategory);
     const isLastQuestionInCategory = categoryQuestions[categoryQuestions.length - 1].id === currentQuestion.id;
@@ -205,6 +204,12 @@ const Index = () => {
         ...prev,
         [currentCategory]: normalizedScore
       }));
+
+      // Move to next category
+      const currentCategoryIndex = categories.indexOf(currentCategory);
+      if (currentCategoryIndex < categories.length - 1) {
+        setActiveCategory(categories[currentCategoryIndex + 1]);
+      }
     }
 
     if (currentQuestionIndex < questions.length - 1) {
@@ -215,90 +220,58 @@ const Index = () => {
   const handleBack = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1);
+      const previousQuestion = questions[currentQuestionIndex - 1];
+      setActiveCategory(previousQuestion.category);
     }
-  };
-
-  const getCurrentCategory = () => {
-    return questions[currentQuestionIndex].category;
-  };
-
-  const getPreviousCategory = () => {
-    if (currentQuestionIndex === 0) return null;
-    return questions[currentQuestionIndex - 1].category;
-  };
-
-  // Check if we just changed categories
-  const showCategoryScore = () => {
-    const currentCategory = getCurrentCategory();
-    const previousCategory = getPreviousCategory();
-    return previousCategory && previousCategory !== currentCategory && categoryScores[previousCategory];
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-title text-center mb-4">
+      <div className="max-w-2xl mx-auto space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold text-center mb-4">
             Carbon Footprint Calculator
           </h1>
           <Progress value={progress} className="w-full" />
           <div className="flex justify-between text-sm text-gray-600 mt-2">
             <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
-            <span>Category: {currentQuestion.category}</span>
+            <span>{Math.round(progress)}% Complete</span>
           </div>
         </div>
 
-        {showCategoryScore() && (
-          <Card className="mb-6 p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">
-              {getPreviousCategory()} Category Complete!
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Your impact score for this category: {categoryScores[getPreviousCategory()!].toFixed(1)}%
-            </p>
-            <Progress 
-              value={categoryScores[getPreviousCategory()!]} 
-              className="h-2 mb-2"
-              indicatorClassName={
-                categoryScores[getPreviousCategory()!] <= 33 ? "bg-green-500" :
-                categoryScores[getPreviousCategory()!] <= 66 ? "bg-yellow-500" :
-                "bg-red-500"
-              }
-            />
-            <p className="text-sm text-gray-500 mt-2">
-              {categoryScores[getPreviousCategory()!] <= 33 ? "Great job! Your impact is relatively low." :
-               categoryScores[getPreviousCategory()!] <= 66 ? "There's room for improvement in reducing your impact." :
-               "Consider taking steps to reduce your environmental impact in this category."}
-            </p>
-          </Card>
-        )}
-
-        <Card className="p-6 bg-white shadow-lg rounded-lg">
-          <h2 className="text-xl font-semibold mb-6">{currentQuestion.text}</h2>
-          <div className="space-y-4">
-            {currentQuestion.options.map((option) => (
-              <Button
-                key={option.text}
-                onClick={() => handleAnswer(option.value)}
-                variant="outline"
-                className="w-full justify-start text-left h-auto py-4 px-6 hover:bg-gray-50"
+        <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+          <TabsList className="grid grid-cols-4 w-full">
+            {categories.map((category) => (
+              <TabsTrigger
+                key={category}
+                value={category}
+                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
-                {option.text}
-              </Button>
+                <CategoryIcon category={category} />
+                <span className="hidden sm:inline">{category}</span>
+              </TabsTrigger>
             ))}
-          </div>
-          {currentQuestionIndex > 0 && (
-            <Button
-              onClick={handleBack}
-              variant="ghost"
-              className="mt-6 flex items-center gap-2"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Back
-            </Button>
-          )}
-        </Card>
+          </TabsList>
+
+          {categories.map((category) => (
+            <TabsContent key={category} value={category} className="space-y-6">
+              <CategoryProgress
+                category={category}
+                progress={getCategoryProgress(category)}
+              />
+              {currentQuestion.category === category && (
+                <QuestionCard
+                  question={currentQuestion}
+                  onAnswer={handleAnswer}
+                  onBack={handleBack}
+                  showBack={currentQuestionIndex > 0}
+                />
+              )}
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
+      
       <footer className="mt-8 text-center text-sm text-gray-500">
         Built with ❤️ by <a href="https://feexet.com/" className="hover:underline">Feexet</a>
       </footer>
