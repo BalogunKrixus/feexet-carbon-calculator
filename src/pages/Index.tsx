@@ -4,6 +4,9 @@ import { questions } from "@/data/questions";
 import { QuestionCard } from "@/components/Calculator/QuestionCard";
 import { CategoryScoreCard } from "@/components/Calculator/CategoryScore";
 import { CategoryScore } from "@/types/questions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Utensils, Car, Home, Package } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Index = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -11,7 +14,20 @@ const Index = () => {
   const [categoryScores, setCategoryScores] = useState<CategoryScore[]>([]);
 
   const currentQuestion = questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  
+  const categories = ["Food", "Travel", "Home", "Stuff"];
+  const categoryIcons = {
+    Food: Utensils,
+    Travel: Car,
+    Home: Home,
+    Stuff: Package,
+  };
+
+  const getCategoryProgress = (category: string) => {
+    const categoryQuestions = questions.filter(q => q.category === category);
+    const answeredQuestions = categoryQuestions.filter(q => answers[q.id]);
+    return (answeredQuestions.length / categoryQuestions.length) * 100;
+  };
 
   const handleAnswer = (value: number) => {
     setAnswers((prev) => ({
@@ -19,7 +35,6 @@ const Index = () => {
       [currentQuestion.id]: value,
     }));
 
-    // Calculate category score when all questions in a category are answered
     const currentCategory = currentQuestion.category;
     const categoryQuestions = questions.filter(q => q.category === currentCategory);
     const isLastQuestionInCategory = categoryQuestions[categoryQuestions.length - 1].id === currentQuestion.id;
@@ -46,16 +61,9 @@ const Index = () => {
     }
   };
 
-  const getCurrentCategory = () => {
-    return questions[currentQuestionIndex].category;
-  };
+  const getCurrentCategory = () => questions[currentQuestionIndex].category;
+  const getPreviousCategory = () => currentQuestionIndex > 0 ? questions[currentQuestionIndex - 1].category : null;
 
-  const getPreviousCategory = () => {
-    if (currentQuestionIndex === 0) return null;
-    return questions[currentQuestionIndex - 1].category;
-  };
-
-  // Check if we just changed categories
   const showCategoryScore = () => {
     const currentCategory = getCurrentCategory();
     const previousCategory = getPreviousCategory();
@@ -71,29 +79,62 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-title text-center mb-4">
+          <h1 className="text-3xl font-bold text-title text-center mb-8">
             Carbon Footprint Calculator
           </h1>
-          <Progress value={progress} className="w-full" />
-          <div className="flex justify-between text-sm text-gray-600 mt-2">
-            <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
-            <span>Category: {currentQuestion.category}</span>
-          </div>
+
+          <Tabs defaultValue={categories[0]} className="w-full mb-8">
+            <TabsList className="grid w-full grid-cols-4">
+              {categories.map((category) => {
+                const Icon = categoryIcons[category as keyof typeof categoryIcons];
+                const progress = getCategoryProgress(category);
+                return (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className={cn(
+                      "flex flex-col items-center gap-2 p-4",
+                      "data-[state=active]:bg-eco-primary data-[state=active]:text-white"
+                    )}
+                    disabled={category !== getCurrentCategory()}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{category}</span>
+                    <Progress 
+                      value={progress} 
+                      className="w-full h-1 bg-gray-200"
+                      indicatorClassName={cn(
+                        "bg-eco-secondary",
+                        "data-[state=active]:bg-white"
+                      )}
+                    />
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+
+            {categories.map((category) => (
+              <TabsContent key={category} value={category}>
+                {currentQuestion.category === category && (
+                  <>
+                    {lastCategoryScore && (
+                      <CategoryScoreCard 
+                        category={lastCategoryScore.category}
+                        score={lastCategoryScore.score}
+                      />
+                    )}
+                    <QuestionCard
+                      question={currentQuestion}
+                      onAnswer={handleAnswer}
+                      onBack={handleBack}
+                      showBack={currentQuestionIndex > 0}
+                    />
+                  </>
+                )}
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
-
-        {lastCategoryScore && (
-          <CategoryScoreCard 
-            category={lastCategoryScore.category}
-            score={lastCategoryScore.score}
-          />
-        )}
-
-        <QuestionCard
-          question={currentQuestion}
-          onAnswer={handleAnswer}
-          onBack={handleBack}
-          showBack={currentQuestionIndex > 0}
-        />
       </div>
       <footer className="mt-8 text-center text-sm text-gray-500">
         Built with ❤️ by <a href="https://feexet.com/" className="hover:underline">Feexet</a>
