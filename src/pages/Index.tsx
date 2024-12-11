@@ -1,13 +1,6 @@
-import { useState } from "react";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QuestionCard } from "@/components/Calculator/QuestionCard";
-import { CategoryProgress } from "@/components/Calculator/CategoryProgress";
-import { CategoryNav } from "@/components/Calculator/CategoryNav";
-import { ProgressHeader } from "@/components/Calculator/ProgressHeader";
-import type { Question } from "@/types/calculator";
+import { Calculator } from "@/components/Calculator/Calculator";
 
-const questions: Question[] = [
+const questions = [
   // Food Category
   {
     id: "diet",
@@ -171,97 +164,8 @@ const questions: Question[] = [
 ];
 
 const Index = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [categoryScores, setCategoryScores] = useState<Record<string, number>>({});
-  const [activeCategory, setActiveCategory] = useState("Food");
-
-  const currentQuestion = questions[currentQuestionIndex];
-  const categories = ["Food", "Travel", "Home", "Stuff"];
-  
-  const getCategoryProgress = (category: string) => {
-    const categoryQuestions = questions.filter(q => q.category === category);
-    const answeredQuestions = categoryQuestions.filter(q => answers[q.id]);
-    return (answeredQuestions.length / categoryQuestions.length) * 100;
-  };
-
-  const handleAnswer = (value: number) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.id]: value,
-    }));
-
-    const currentCategory = currentQuestion.category;
-    const categoryQuestions = questions.filter(q => q.category === currentCategory);
-    const isLastQuestionInCategory = categoryQuestions[categoryQuestions.length - 1].id === currentQuestion.id;
-
-    if (isLastQuestionInCategory) {
-      const categoryAnswers = categoryQuestions.map(q => answers[q.id] || 0);
-      const totalScore = categoryAnswers.reduce((sum, score) => sum + score, 0) + value;
-      const normalizedScore = (totalScore / (categoryQuestions.length * 4)) * 100;
-      
-      setCategoryScores(prev => ({
-        ...prev,
-        [currentCategory]: normalizedScore
-      }));
-
-      const currentCategoryIndex = categories.indexOf(currentCategory);
-      if (currentCategoryIndex < categories.length - 1) {
-        setActiveCategory(categories[currentCategoryIndex + 1]);
-      }
-    }
-
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex((prev) => prev - 1);
-      const previousQuestion = questions[currentQuestionIndex - 1];
-      setActiveCategory(previousQuestion.category);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto space-y-8">
-        <ProgressHeader 
-          currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={questions.length}
-        />
-
-        <CategoryNav 
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-        />
-
-        <div className="space-y-6">
-          {categories.map((category) => (
-            <div key={category} className={category === activeCategory ? 'block' : 'hidden'}>
-              <CategoryProgress
-                category={category}
-                progress={getCategoryProgress(category)}
-              />
-              {currentQuestion.category === category && (
-                <QuestionCard
-                  question={currentQuestion}
-                  onAnswer={handleAnswer}
-                  onBack={handleBack}
-                  showBack={currentQuestionIndex > 0}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      <footer className="mt-8 text-center text-sm text-gray-500">
-        Built with ❤️ by <a href="https://feexet.com/" className="hover:underline">Feexet</a>
-      </footer>
-    </div>
+    <Calculator questions={questions} />
   );
 };
 
