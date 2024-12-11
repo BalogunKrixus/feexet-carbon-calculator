@@ -1,4 +1,5 @@
 import { Calculator } from "@/components/Calculator/Calculator";
+import { HeroSection } from "@/components/Calculator/HeroSection";
 
 const questions = [
   // Food Category
@@ -179,7 +180,12 @@ const questions = [
 
 const Index = () => {
   return (
-    <Calculator questions={questions} />
+    <>
+      <HeroSection />
+      <div id="calculator">
+        <Calculator questions={questions} />
+      </div>
+    </>
   );
 };
 

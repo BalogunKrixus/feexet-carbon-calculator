@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const COLORS = ['#9b87f5', '#F2FCE2', '#FEF7CD', '#FEC6A1'];
+const COLORS = ['#8B5CF6', '#D946EF', '#F97316', '#0EA5E9']; // Brighter colors for better visibility
 
 const getSuggestions = (breakdown: { category: string; value: number }[]) => {
   const suggestions: { icon: JSX.Element; text: string }[] = [];
@@ -73,8 +73,8 @@ export const Results = ({
   setShowSuggestions: (show: boolean) => void;
   onReset: () => void;
 }) => {
-  const nigerianAverage = 0.5; // tons CO2e/year
-  const percentage = Math.min((totalEmissions / nigerianAverage) * 100, 100); // Cap at 100%
+  const nigerianAverage = 0.5;
+  const percentage = Math.min((totalEmissions / nigerianAverage) * 100, 100);
   const suggestions = getSuggestions(breakdown);
 
   const getProgressColor = (index: number) => {
@@ -82,7 +82,7 @@ export const Results = ({
   };
 
   return (
-    <Card className="p-6 space-y-6 max-w-2xl mx-auto">
+    <Card className="p-6 space-y-6 max-w-2xl mx-auto mt-8">
       <h3 className="text-xl font-semibold text-title">Your Results</h3>
       
       <div className="space-y-2">
@@ -149,7 +149,7 @@ export const Results = ({
               <Progress
                 value={(item.value / totalEmissions) * 100}
                 className="h-1.5"
-                indicatorClassName={getProgressColor(index)}
+                indicatorClassName={`bg-[${COLORS[index]}]`}
               />
             </div>
           ))}
