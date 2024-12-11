@@ -7,6 +7,7 @@ interface QuestionCardProps {
   question: {
     category: string;
     text: string;
+    hint?: string;
     options: { text: string; value: number }[];
   };
   onAnswer: (value: number) => void;
@@ -21,6 +22,10 @@ export const QuestionCard = ({ question, onAnswer, onBack, showBack }: QuestionC
         <CategoryIcon category={question.category} />
         <h2 className="text-xl font-semibold">{question.text}</h2>
       </div>
+      
+      {question.hint && (
+        <p className="text-sm text-muted-foreground italic">{question.hint}</p>
+      )}
       
       <div className="space-y-4">
         {question.options.map((option) => (

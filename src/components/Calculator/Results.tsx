@@ -60,16 +60,18 @@ const getSuggestions = (breakdown: { category: string; value: number }[]) => {
   return suggestions.slice(0, 5);
 };
 
-export const Results = ({
-  totalEmissions,
-  breakdown,
-  showSuggestions,
+export const Results = ({ 
+  totalEmissions, 
+  breakdown, 
+  showSuggestions, 
   setShowSuggestions,
-}: {
-  totalEmissions: number;
+  onReset 
+}: { 
+  totalEmissions: number; 
   breakdown: { category: string; value: number }[];
   showSuggestions: boolean;
   setShowSuggestions: (show: boolean) => void;
+  onReset: () => void;
 }) => {
   const nigerianAverage = 0.5; // tons CO2e/year
   const percentage = Math.min((totalEmissions / nigerianAverage) * 100, 100); // Cap at 100%
@@ -159,18 +161,24 @@ export const Results = ({
           onClick={() => setShowSuggestions(true)}
           className="bg-eco-primary hover:bg-eco-primary/90"
         >
-          How can I reduce my carbon footprint?
+          How can I reduce my footprint?
+        </Button>
+        <Button
+          onClick={onReset}
+          variant="outline"
+        >
+          Reset Calculator
         </Button>
       </div>
 
       {showSuggestions && (
-        <div className="mt-8 border-t pt-6">
-          <h4 className="font-semibold text-title mb-4">Suggestions to Reduce Your Carbon Footprint</h4>
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold">Suggestions to Reduce Your Carbon Footprint</h4>
           <div className="space-y-4">
             {suggestions.map((suggestion, index) => (
               <div key={index} className="flex items-start gap-3">
                 {suggestion.icon}
-                <p className="text-sm text-gray-600">{suggestion.text}</p>
+                <p className="text-sm">{suggestion.text}</p>
               </div>
             ))}
           </div>

@@ -17,6 +17,7 @@ export const ResultsPage = ({ totalEmissions, breakdown, onReset }: ResultsPageP
         breakdown={breakdown}
         showSuggestions={showSuggestions}
         setShowSuggestions={setShowSuggestions}
+        onReset={onReset}
       />
     </div>
   );
