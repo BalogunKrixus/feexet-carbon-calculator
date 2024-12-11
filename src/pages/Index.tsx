@@ -3,7 +3,9 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { QuestionCard } from "@/components/Calculator/QuestionCard";
 import { CategoryProgress } from "@/components/Calculator/CategoryProgress";
-import { CategoryIcon } from "@/components/Calculator/CategoryIcon";
+import { CategoryNav } from "@/components/Calculator/CategoryNav";
+import { ProgressHeader } from "@/components/Calculator/ProgressHeader";
+import type { Question } from "@/types/calculator";
 
 const questions: Question[] = [
   // Food Category
@@ -175,8 +177,6 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Food");
 
   const currentQuestion = questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-
   const categories = ["Food", "Travel", "Home", "Stuff"];
   
   const getCategoryProgress = (category: string) => {
@@ -205,7 +205,6 @@ const Index = () => {
         [currentCategory]: normalizedScore
       }));
 
-      // Move to next category
       const currentCategoryIndex = categories.indexOf(currentCategory);
       if (currentCategoryIndex < categories.length - 1) {
         setActiveCategory(categories[currentCategoryIndex + 1]);
@@ -228,33 +227,20 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold text-center mb-4">
-            Carbon Footprint Calculator
-          </h1>
-          <Progress value={progress} className="w-full" />
-          <div className="flex justify-between text-sm text-gray-600 mt-2">
-            <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
-            <span>{Math.round(progress)}% Complete</span>
-          </div>
-        </div>
+        <ProgressHeader 
+          currentQuestionIndex={currentQuestionIndex}
+          totalQuestions={questions.length}
+        />
 
-        <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
-          <TabsList className="grid grid-cols-4 w-full">
-            {categories.map((category) => (
-              <TabsTrigger
-                key={category}
-                value={category}
-                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
-                <CategoryIcon category={category} />
-                <span className="hidden sm:inline">{category}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <CategoryNav 
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+        />
 
+        <div className="space-y-6">
           {categories.map((category) => (
-            <TabsContent key={category} value={category} className="space-y-6">
+            <div key={category} className={category === activeCategory ? 'block' : 'hidden'}>
               <CategoryProgress
                 category={category}
                 progress={getCategoryProgress(category)}
@@ -267,9 +253,9 @@ const Index = () => {
                   showBack={currentQuestionIndex > 0}
                 />
               )}
-            </TabsContent>
+            </div>
           ))}
-        </Tabs>
+        </div>
       </div>
       
       <footer className="mt-8 text-center text-sm text-gray-500">
