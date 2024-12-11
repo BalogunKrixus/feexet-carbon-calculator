@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const COLORS = ["#2F855A", "#4C51BF", "#F6E05E"];
+const COLORS = ['#9b87f5', '#F2FCE2', '#FEF7CD', '#FEC6A1'];
 
 const getSuggestions = (breakdown: { category: string; value: number }[]) => {
   const suggestions: { icon: JSX.Element; text: string }[] = [];
@@ -76,13 +76,11 @@ export const Results = ({
   const suggestions = getSuggestions(breakdown);
 
   const getProgressColor = (index: number) => {
-    if (index === 0) return "bg-[#2F855A]";
-    if (index === 1) return "bg-[#4C51BF]";
-    return "bg-[#F6E05E]";
+    return `bg-[${COLORS[index]}]`;
   };
 
   return (
-    <Card className="p-6 space-y-6">
+    <Card className="p-6 space-y-6 max-w-2xl mx-auto">
       <h3 className="text-xl font-semibold text-title">Your Results</h3>
       
       <div className="space-y-2">
@@ -103,11 +101,6 @@ export const Results = ({
           className="h-2" 
           indicatorClassName={percentage > 100 ? "bg-red-500" : "bg-eco-primary"}
         />
-        <div className="flex justify-between text-xs text-gray-500">
-          <span>Better than average</span>
-          <span>Nigerian average</span>
-          <span>Above average</span>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -161,7 +154,7 @@ export const Results = ({
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-4">
         <Button
           onClick={() => setShowSuggestions(true)}
           className="bg-eco-primary hover:bg-eco-primary/90"

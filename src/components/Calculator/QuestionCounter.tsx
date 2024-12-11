@@ -6,7 +6,7 @@ interface QuestionCounterProps {
 
 export const QuestionCounter = ({ currentQuestion, totalQuestions, category }: QuestionCounterProps) => {
   return (
-    <div className="text-sm text-gray-600">
+    <div className="text-sm text-gray-600 mb-4">
       {category}: Question {currentQuestion} of {totalQuestions}
     </div>
   );
