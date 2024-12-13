@@ -112,6 +112,8 @@ export const Calculator = ({ questions }: CalculatorProps) => {
           categories={categories}
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
+          answers={answers}
+          questions={questions}
         />
 
         <div className="space-y-6">
@@ -145,6 +147,12 @@ export const Calculator = ({ questions }: CalculatorProps) => {
             />
           </div>
         </div>
+      </div>
+      <div className="text-center text-sm text-gray-500 mt-8">
+        * This calculator provides estimates based on average emission factors in Nigeria
+      </div>
+      <div className="text-center text-sm text-gray-500 mt-2 mb-8">
+        Built with love by feexet
       </div>
     </div>
   );

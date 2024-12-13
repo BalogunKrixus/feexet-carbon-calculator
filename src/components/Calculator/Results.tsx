@@ -3,6 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const COLORS = ['#8B5CF6', '#D946EF', '#F97316', '#0EA5E9']; // Brighter colors for better visibility
 
@@ -82,7 +83,7 @@ export const Results = ({
   };
 
   return (
-    <Card className="p-6 space-y-6 max-w-2xl mx-auto mt-8">
+    <Card className="p-6 space-y-6 max-w-2xl mx-auto mt-8 mb-8">
       <h3 className="text-xl font-semibold text-title">Your Results</h3>
       
       <div className="space-y-2">
@@ -184,6 +185,13 @@ export const Results = ({
           </div>
         </div>
       )}
+
+      <div className="text-center text-sm text-gray-500 mt-8">
+        * This calculator provides estimates based on average emission factors in Nigeria
+      </div>
+      <div className="text-center text-sm text-gray-500 mt-2">
+        Built with love by feexet
+      </div>
     </Card>
   );
 };

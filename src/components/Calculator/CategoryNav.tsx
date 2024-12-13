@@ -1,27 +1,49 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CategoryIcon } from "./CategoryIcon";
-
 interface CategoryNavProps {
   categories: string[];
   activeCategory: string;
   onCategoryChange: (category: string) => void;
+  answers: Record<string, number>;
+  questions: { id: string; category: string }[];
 }
 
-export const CategoryNav = ({ categories, activeCategory, onCategoryChange }: CategoryNavProps) => {
+export const CategoryNav = ({ 
+  categories, 
+  activeCategory, 
+  onCategoryChange,
+  answers,
+  questions
+}: CategoryNavProps) => {
+  const isCategoryEnabled = (category: string) => {
+    if (category === "Food") return true;
+    
+    const categoryIndex = categories.indexOf(category);
+    const previousCategory = categories[categoryIndex - 1];
+    const previousCategoryQuestions = questions.filter(q => q.category === previousCategory);
+    
+    return previousCategoryQuestions.every(q => answers[q.id] !== undefined);
+  };
+
   return (
-    <Tabs value={activeCategory} onValueChange={onCategoryChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-4">
-        {categories.map((category) => (
-          <TabsTrigger
+    <div className="flex space-x-2 justify-center">
+      {categories.map((category) => {
+        const isEnabled = isCategoryEnabled(category);
+        return (
+          <button
             key={category}
-            value={category}
-            className="flex items-center gap-2 data-[state=active]:bg-eco-primary data-[state=active]:text-white"
+            onClick={() => isEnabled && onCategoryChange(category)}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              category === activeCategory
+                ? "bg-eco-primary text-white"
+                : isEnabled
+                ? "bg-gray-100 hover:bg-gray-200"
+                : "bg-gray-100 opacity-50 cursor-not-allowed"
+            }`}
+            disabled={!isEnabled}
           >
-            <CategoryIcon category={category} className="w-4 h-4" />
-            <span className="hidden sm:inline">{category}</span>
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+            {category}
+          </button>
+        );
+      })}
+    </div>
   );
 };
