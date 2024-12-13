@@ -1,3 +1,5 @@
+import { CategoryIcon } from "./CategoryIcon";
+
 interface CategoryNavProps {
   categories: string[];
   activeCategory: string;
@@ -20,7 +22,10 @@ export const CategoryNav = ({
     const previousCategory = categories[categoryIndex - 1];
     const previousCategoryQuestions = questions.filter(q => q.category === previousCategory);
     
-    return previousCategoryQuestions.every(q => answers[q.id] !== undefined);
+    // Allow clicking if it's a previous category or if the previous category is completed
+    return category === activeCategory || 
+           categories.indexOf(category) < categories.indexOf(activeCategory) ||
+           previousCategoryQuestions.every(q => answers[q.id] !== undefined);
   };
 
   return (
@@ -31,7 +36,7 @@ export const CategoryNav = ({
           <button
             key={category}
             onClick={() => isEnabled && onCategoryChange(category)}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
               category === activeCategory
                 ? "bg-eco-primary text-white"
                 : isEnabled
@@ -40,6 +45,7 @@ export const CategoryNav = ({
             }`}
             disabled={!isEnabled}
           >
+            <CategoryIcon category={category} className="w-4 h-4" />
             {category}
           </button>
         );

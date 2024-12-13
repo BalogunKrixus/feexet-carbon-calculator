@@ -152,7 +152,7 @@ export const Calculator = ({ questions }: CalculatorProps) => {
         * This calculator provides estimates based on average emission factors in Nigeria
       </div>
       <div className="text-center text-sm text-gray-500 mt-2 mb-8">
-        Built with love by feexet
+        Built with ❤️ by <a href="https://feexet.com/" target="_blank" rel="noopener noreferrer" className="hover:text-eco-primary">Feexet</a>
       </div>
     </div>
   );
