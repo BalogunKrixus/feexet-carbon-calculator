@@ -83,6 +83,15 @@ export const Calculator = ({ questions }: CalculatorProps) => {
     setIsComplete(false);
   };
 
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    // Find the first question of the selected category
+    const firstQuestionIndex = questions.findIndex(q => q.category === category);
+    if (firstQuestionIndex !== -1) {
+      setCurrentQuestionIndex(firstQuestionIndex);
+    }
+  };
+
   if (isComplete) {
     const totalEmissions = Object.values(answers).reduce((sum, value) => sum + value, 0) / 10;
     const breakdown = categories.map(category => ({
@@ -111,7 +120,7 @@ export const Calculator = ({ questions }: CalculatorProps) => {
         <CategoryNav 
           categories={categories}
           activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
+          onCategoryChange={handleCategoryChange}
           answers={answers}
           questions={questions}
         />
