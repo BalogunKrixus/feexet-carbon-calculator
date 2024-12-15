@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { CategoryNav } from "./CategoryNav";
-import { QuestionCard } from "./QuestionCard";
-import { QuestionCounter } from "./QuestionCounter";
+import { QuestionsSection } from "./QuestionsSection";
+import { ProgressBar } from "./ProgressBar";
 import { ResultsPage } from "./ResultsPage";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
 import type { Question } from "@/types/calculator";
 
 interface CalculatorProps {
@@ -85,7 +87,6 @@ export const Calculator = ({ questions }: CalculatorProps) => {
 
   const handleCategoryChange = (category: string) => {
     setActiveCategory(category);
-    // Find the first question of the selected category
     const firstQuestionIndex = questions.findIndex(q => q.category === category);
     if (firstQuestionIndex !== -1) {
       setCurrentQuestionIndex(firstQuestionIndex);
@@ -113,9 +114,7 @@ export const Calculator = ({ questions }: CalculatorProps) => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-center text-title mb-8">
-          Carbon Footprint Calculator
-        </h1>
+        <Header />
 
         <CategoryNav 
           categories={categories}
@@ -125,44 +124,20 @@ export const Calculator = ({ questions }: CalculatorProps) => {
           questions={questions}
         />
 
-        <div className="space-y-6">
-          {categories.map((category) => (
-            <div key={category} className={category === activeCategory ? 'block' : 'hidden'}>
-              <QuestionCounter
-                category={category}
-                currentQuestion={getCurrentQuestionNumberInCategory(category)}
-                totalQuestions={getCategoryQuestionCount(category)}
-              />
-              {currentQuestion.category === category && (
-                <QuestionCard
-                  question={currentQuestion}
-                  onAnswer={handleAnswer}
-                  onBack={handleBack}
-                  showBack={currentQuestionIndex > 0}
-                />
-              )}
-            </div>
-          ))}
-        </div>
+        <QuestionsSection 
+          categories={categories}
+          activeCategory={activeCategory}
+          currentQuestion={currentQuestion}
+          getCurrentQuestionNumberInCategory={getCurrentQuestionNumberInCategory}
+          getCategoryQuestionCount={getCategoryQuestionCount}
+          onAnswer={handleAnswer}
+          onBack={handleBack}
+          showBack={currentQuestionIndex > 0}
+        />
 
-        <div className="mt-8">
-          <div className="text-sm text-gray-600 text-center mb-2">
-            Total Progress: {Math.round(getTotalProgress())}%
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
-            <div 
-              className="bg-eco-primary h-2.5 rounded-full transition-all duration-300" 
-              style={{ width: `${getTotalProgress()}%` }}
-            />
-          </div>
-        </div>
+        <ProgressBar progress={getTotalProgress()} />
       </div>
-      <div className="text-center text-sm text-gray-500 mt-8">
-        * This calculator provides estimates based on average emission factors in Nigeria
-      </div>
-      <div className="text-center text-sm text-gray-500 mt-2 mb-8">
-        Built with ❤️ by <a href="https://feexet.com/" target="_blank" rel="noopener noreferrer" className="hover:text-eco-primary">Feexet</a>
-      </div>
+      <Footer />
     </div>
   );
 };
