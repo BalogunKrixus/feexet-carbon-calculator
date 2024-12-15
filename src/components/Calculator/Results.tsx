@@ -1,63 +1,89 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { Leaf, Car, Lightbulb, Recycle } from "lucide-react";
+import { Leaf, Car, Lightbulb, Recycle, Plane, Home, ShoppingBag, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
-const COLORS = ['#8B5CF6', '#D946EF', '#F97316', '#0EA5E9']; // Brighter colors for better visibility
+const COLORS = ['#8B5CF6', '#D946EF', '#F97316', '#0EA5E9'];
+
+const SUGGESTIONS = {
+  transport: [
+    { icon: <Car />, text: "Consider using public transportation or carpooling more frequently" },
+    { icon: <Car />, text: "Try walking or cycling for short distances instead of driving" },
+    { icon: <Car />, text: "Maintain your vehicle properly to improve fuel efficiency" },
+    { icon: <Car />, text: "Consider switching to an electric or hybrid vehicle" },
+    { icon: <Car />, text: "Plan and combine multiple errands into one trip" },
+    { icon: <Car />, text: "Join or start a carpool for your daily commute" },
+    { icon: <Plane />, text: "Choose direct flights when possible to reduce emissions" },
+    { icon: <Plane />, text: "Consider train travel for shorter distances instead of flying" }
+  ],
+  energy: [
+    { icon: <Lightbulb />, text: "Switch to energy-efficient LED bulbs" },
+    { icon: <Lightbulb />, text: "Use natural lighting during the day" },
+    { icon: <Home />, text: "Improve your home's insulation" },
+    { icon: <Home />, text: "Install solar panels or switch to renewable energy sources" },
+    { icon: <Home />, text: "Use energy-efficient appliances" },
+    { icon: <Home />, text: "Set up a programmable thermostat" },
+    { icon: <Home />, text: "Air dry clothes instead of using a dryer" },
+    { icon: <Home />, text: "Regular maintenance of AC and heating systems" }
+  ],
+  waste: [
+    { icon: <Recycle />, text: "Start composting organic waste" },
+    { icon: <Recycle />, text: "Use reusable bags, bottles, and containers" },
+    { icon: <Recycle />, text: "Properly sort recyclables" },
+    { icon: <ShoppingBag />, text: "Buy products with minimal packaging" },
+    { icon: <ShoppingBag />, text: "Choose products made from recycled materials" },
+    { icon: <Recycle />, text: "Donate or repair items instead of throwing them away" },
+    { icon: <ShoppingBag />, text: "Buy second-hand items when possible" }
+  ],
+  food: [
+    { icon: <Utensils />, text: "Reduce meat consumption" },
+    { icon: <Utensils />, text: "Buy local and seasonal produce" },
+    { icon: <Utensils />, text: "Plan meals to reduce food waste" },
+    { icon: <Utensils />, text: "Start a small vegetable garden" },
+    { icon: <Utensils />, text: "Choose products with sustainable packaging" },
+    { icon: <Leaf />, text: "Support local farmers and markets" },
+    { icon: <Leaf />, text: "Preserve seasonal fruits and vegetables" }
+  ]
+};
 
 const getSuggestions = (breakdown: { category: string; value: number }[]) => {
   const suggestions: { icon: JSX.Element; text: string }[] = [];
+  const usedSuggestions = new Set();
   
   breakdown.forEach(({ category, value }) => {
-    if (category === "Transport" && value > 1) {
-      suggestions.push({
-        icon: <Car className="w-5 h-5 text-eco-primary" />,
-        text: "Consider using public transportation or carpooling more frequently to reduce your transport emissions."
-      });
-      suggestions.push({
-        icon: <Car className="w-5 h-5 text-eco-primary" />,
-        text: "Try walking or cycling for short distances instead of driving."
-      });
-    }
-    
-    if (category === "Energy" && value > 1.5) {
-      suggestions.push({
-        icon: <Lightbulb className="w-5 h-5 text-eco-primary" />,
-        text: "Switch to energy-efficient LED bulbs and turn off appliances when not in use."
-      });
-      suggestions.push({
-        icon: <Lightbulb className="w-5 h-5 text-eco-primary" />,
-        text: "Consider using natural lighting during the day and reduce generator usage when possible."
-      });
-    }
-    
-    if (category === "Waste" && value > 0.5) {
-      suggestions.push({
-        icon: <Recycle className="w-5 h-5 text-eco-primary" />,
-        text: "Increase your recycling efforts and try composting organic waste."
-      });
+    let categoryKey = category.toLowerCase();
+    if (value > 0.8) {
+      const categorySuggestions = SUGGESTIONS[categoryKey as keyof typeof SUGGESTIONS] || [];
+      for (let i = 0; i < 2; i++) {
+        let attempts = 0;
+        while (attempts < 10) {
+          const suggestion = categorySuggestions[Math.floor(Math.random() * categorySuggestions.length)];
+          if (suggestion && !usedSuggestions.has(suggestion.text)) {
+            suggestions.push(suggestion);
+            usedSuggestions.add(suggestion.text);
+            break;
+          }
+          attempts++;
+        }
+      }
     }
   });
 
-  // Always add general suggestions to ensure we have at least 3
-  if (suggestions.length < 3) {
-    suggestions.push({
-      icon: <Leaf className="w-5 h-5 text-eco-primary" />,
-      text: "Plant trees or support local environmental initiatives to offset your carbon footprint."
-    });
-    suggestions.push({
-      icon: <Recycle className="w-5 h-5 text-eco-primary" />,
-      text: "Start a home composting system to reduce organic waste."
-    });
-    suggestions.push({
-      icon: <Lightbulb className="w-5 h-5 text-eco-primary" />,
-      text: "Use energy-efficient appliances and turn off lights when not in use."
-    });
+  while (suggestions.length < 5) {
+    const categories = Object.keys(SUGGESTIONS);
+    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    const categorySuggestions = SUGGESTIONS[randomCategory as keyof typeof SUGGESTIONS];
+    
+    for (const suggestion of categorySuggestions) {
+      if (!usedSuggestions.has(suggestion.text)) {
+        suggestions.push(suggestion);
+        usedSuggestions.add(suggestion.text);
+        break;
+      }
+    }
   }
 
-  // Return 3-5 suggestions
   return suggestions.slice(0, 5);
 };
 
@@ -76,11 +102,6 @@ export const Results = ({
 }) => {
   const nigerianAverage = 0.5;
   const percentage = Math.min((totalEmissions / nigerianAverage) * 100, 100);
-  const suggestions = getSuggestions(breakdown);
-
-  const getProgressColor = (index: number) => {
-    return `bg-[${COLORS[index]}]`;
-  };
 
   return (
     <Card className="p-6 space-y-6 max-w-2xl mx-auto mt-8 mb-8">
@@ -176,9 +197,11 @@ export const Results = ({
         <div className="space-y-4">
           <h4 className="text-lg font-semibold">Suggestions to Reduce Your Carbon Footprint</h4>
           <div className="space-y-4">
-            {suggestions.map((suggestion, index) => (
+            {getSuggestions(breakdown).map((suggestion, index) => (
               <div key={index} className="flex items-start gap-3">
-                {suggestion.icon}
+                <div className="text-eco-primary">
+                  {suggestion.icon}
+                </div>
                 <p className="text-sm">{suggestion.text}</p>
               </div>
             ))}
